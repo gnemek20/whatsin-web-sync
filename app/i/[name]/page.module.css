@@ -1,0 +1,115 @@
+/* 성분 상세 — 잉크 첫 면 → 바탕 시트. 폭은 모든 페이지와 같은 --max(2026-11-03 통일) · 긴 글 문단만 읽기 폭 720 으로 묶는다. */
+.col {
+  max-width: calc(var(--max) + var(--gutter) * 2);
+}
+.col p { max-width: 720px; }
+
+.errorPage {
+  padding-top: var(--s-section);
+  padding-bottom: var(--s-band);
+}
+
+.hero {
+  padding: var(--s-tight) 0 calc(var(--sheet-r) + var(--s-section));
+}
+
+.sheet {
+  padding-top: var(--s-section);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-hair);
+  min-height: 44px;
+  margin-left: -6px;
+  padding-right: var(--s-stack);
+  color: var(--t2);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-hair);
+  margin-top: var(--s-stack);
+}
+
+.kind {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-tight);
+}
+
+.summary {
+  margin-top: var(--s-stack);
+  font-weight: 500;
+}
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  padding: var(--s-card);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+}
+
+.rows > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-hair);
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+}
+
+.authRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--s-stack);
+  padding: var(--s-stack) 0;
+  border-top: 1px solid var(--line);
+}
+
+.authRow:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.advice {
+  padding: var(--s-inner) var(--s-card);
+  border-radius: var(--r-card);
+  background: var(--sunken);
+}
+
+.found {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  margin-top: var(--s-section);
+}
+
+@media (max-width: 759px) {
+  .block {
+    padding: var(--s-inner);
+  }
+  .advice {
+    padding: var(--s-inner);
+  }
+  .authRow {
+    grid-template-columns: 1fr;
+    gap: var(--s-hair);
+  }
+}

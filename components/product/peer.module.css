@@ -1,0 +1,18 @@
+/* 같은 종류와 견주면 — 위: 「같은 콜라 80개 중 / 이보다 나은 제품 10개」, 아래: 축마다 아이콘 · 이름 · 나은 비율.
+   판정색은 「가장 좋음」에만(위치는 판정이 아니다). 3칸 막대·점 범례는 걷었다(2026-11-02 사용자). */
+.card { display: flex; flex-direction: column; gap: var(--s-inner); padding: var(--s-inner); }
+.head { display: flex; flex-direction: column; gap: 2px; }
+.head h2 { margin: 0; }
+.best { color: var(--band-1-t); }
+.axes { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair, var(--line)); }
+.axes li { display: flex; align-items: center; gap: var(--s-stack); min-height: 48px; }
+.axes li + li { border-top: 1px solid var(--hair, var(--line)); }
+.axes li > span:nth-child(2) { flex: 1; }
+.icon { width: 32px; height: 32px; border-radius: var(--r-tile, 12px); background: var(--sunken); color: var(--t2); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.silent { padding: 0 var(--s-hair); }
+.sk { display: block; height: 14px; border-radius: 7px; background: var(--sunken); }
+
+/* 순위 · 한줄 평(2026-11-05) — 「3등」 큰 글씨 옆에 「상위 4%」 알약, 아래 한줄 평 한 문단 */
+.rankRow { display: flex; align-items: baseline; gap: var(--s-tight); flex-wrap: wrap; }
+.top { padding: 2px 8px; border-radius: 999px; background: var(--sunken); color: var(--t2); }
+.line { margin: 4px 0 0; color: var(--t1); }

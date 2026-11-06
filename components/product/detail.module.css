@@ -1,0 +1,321 @@
+/* 제품 화면 골조 — 첫 면(틴트) → 바탕 시트 → 톤 시트(앱 StackScreen hero + Band). 읽기 폭은 가운데 한 열 960. */
+
+.page {
+  --col: var(--max);
+}
+
+.col {
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-section);
+}
+
+.errorPage {
+  padding: var(--s-section) var(--gutter) var(--s-band);
+}
+
+/* ── 첫 면 ─────────────────────────────────────── */
+.hero {
+  padding: var(--s-tight) 0 calc(var(--sheet-r) + var(--s-section));
+}
+
+.hero .col {
+  gap: var(--s-stack);
+}
+
+/* 맨 위 줄(이전 · 공유) — 틴트 면 위 바탕(PageBar · 2026-11-06) */
+.topBar { padding-top: 4px; padding-bottom: 4px; }
+
+.heroBody {
+  display: flex;
+  align-items: center;
+  gap: var(--s-inner);
+  min-width: 0;
+}
+
+.heroTile {
+  flex: none;
+  padding: 6px;
+  border-radius: calc(var(--r-card) + 6px);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  line-height: 0;
+}
+
+.heroText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.ellipsis {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── 시트 ──────────────────────────────────────── */
+.sheet {
+  padding-top: var(--s-section);
+}
+
+/* 뒤에 톤 시트가 겹쳐 올라오는 바탕 시트 — 전역 .sheet 의 밴드 간격(랜딩용 72~136)은 이 화면에 너무 넓다 */
+.sheetMid {
+  padding-bottom: calc(var(--sheet-r) + var(--s-section) * 1.5) !important;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  min-width: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+}
+
+.sectionTitle {
+  padding: 0 var(--s-hair);
+}
+
+.note {
+  padding: 0 var(--s-hair);
+}
+
+.note a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.preparing {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-stack);
+  padding: var(--s-inner);
+}
+
+/* ── 대안 트랙 — 휴대폰은 가로로 넘기고 넓은 화면은 격자 ──── */
+.track {
+  display: flex;
+  gap: var(--s-stack);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 var(--gutter);
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 4px var(--gutter) var(--s-tight);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.recItem {
+  flex: none;
+  width: min(232px, 72vw);
+  scroll-snap-align: start;
+  display: flex;
+}
+
+.rec {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rec:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+
+.recHead {
+  display: flex;
+  align-items: center;
+  gap: var(--s-tight);
+  padding: var(--s-stack) var(--s-stack) var(--s-tight);
+}
+
+.recHeadText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.badgeOn {
+  color: var(--brand-ink);
+}
+
+.recName {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(2 * 1.45em);
+  padding: 0 var(--s-stack);
+  overflow-wrap: anywhere;
+}
+
+.recStrip {
+  display: flex;
+  align-items: center;
+  padding: var(--s-stack) var(--s-hair);
+}
+
+.recCell {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.recValue {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.up,
+.down {
+  width: 12px;
+  height: 12px;
+  color: var(--band-1-t);
+}
+
+.down {
+  transform: rotate(180deg);
+}
+
+.recRule {
+  flex: none;
+  width: 1px;
+  height: 18px;
+  background: var(--line);
+}
+
+.recFoot {
+  margin-top: auto;
+  padding: var(--s-tight) var(--s-stack);
+  border-top: 1px solid var(--line);
+  background: var(--sunken);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.warn {
+  color: var(--brand-ink);
+}
+
+@media (min-width: 760px) {
+  .track {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(208px, 1fr));
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+  }
+  .recItem {
+    width: auto;
+  }
+}
+
+/* ── 앱 안내 ───────────────────────────────────── */
+.app {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-stack);
+  padding: var(--s-inner);
+  border-radius: var(--r-card);
+  background: var(--brand-soft);
+}
+
+.appIcon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--brand-ink);
+}
+
+.appText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+@media (max-width: 479px) {
+  .app > :last-child {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 760px) {
+  .hero {
+    padding-top: var(--s-stack);
+  }
+}
+
+/* ── PC 두 단(1024~) — 첫 면 대신 왼쪽 제품 카드. 시트가 겹칠 첫 면이 없으니 겹침을 푼다 ── */
+.side { gap: var(--s-stack); }
+.productCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  padding: var(--s-inner);
+  border-radius: var(--r-card);
+}
+.productCard .heroBody { flex-direction: column; align-items: flex-start; }
+@media (min-width: 1024px) {
+  .sheet {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+    padding-top: var(--s-card);
+    box-shadow: none !important;
+  }
+}
+
+/* 다른 선택 — 기준 칩(2026-11-03) */
+.chooser { display: grid; gap: var(--s-tight); min-width: 0; }
+.chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto; height: 34px; padding: 0 14px; border-radius: var(--r-pill);
+  border: 1px solid var(--line); background: var(--surface); color: var(--t2); white-space: nowrap;
+}
+.chipOn { background: var(--t1); border-color: var(--t1); color: var(--bg); }

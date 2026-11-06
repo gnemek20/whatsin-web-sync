@@ -1,0 +1,25 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-stack);
+  padding: 64px var(--s-inner);
+  text-align: center;
+}
+
+.art {
+  color: var(--t3);
+  margin-bottom: var(--s-tight);
+}
+
+.retry {
+  display: inline-flex;
+  align-items: center;
+  height: 52px;
+  margin-top: var(--s-tight);
+  padding: 0 var(--s-section);
+  border-radius: var(--r-button);
+  background: var(--brand);
+  color: var(--on-brand);
+  font: var(--f-strong);
+}

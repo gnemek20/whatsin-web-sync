@@ -1,0 +1,43 @@
+/* 4칸 미터 */
+.meter {
+  display: inline-grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-hair);
+  width: 100%;
+  max-width: 160px;
+}
+
+.seg {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--sunken);
+}
+
+/* 목록 글리프 */
+.glyphs {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-hair);
+  flex-shrink: 0;
+}
+
+.glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  /* 둥근 사각 타일 — 원형 틴트는 상태 점으로 읽힌다(§0-7). 제품 화면 axisIcon 과 같은 모양 */
+  border-radius: 9px;
+  color: var(--t3);
+  background: var(--sunken);
+}
+
+.bowls {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 48px;
+  padding-left: var(--s-hair);
+  color: var(--t2);
+}

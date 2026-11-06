@@ -1,0 +1,430 @@
+/* =========================================================================
+   What's In? — 웹 전역 토큰 · 베이스
+   정본: docs/design/DESIGN_RULES.md (앱·웹 공용). 값을 바꾸려면 그 파일을 먼저 고친다.
+   - 글자는 용도별 일곱 단계(--f-*)만 쓴다. 모듈 CSS 에 font-size 숫자를 직접 쓰지 않는다.
+   - 간격은 4 pt 격자(--s-*). 웹은 데스크톱에서 gutter·섹션 간격만 clamp 로 넓힌다.
+   - 색은 무채색 + 오렌지 하나. 판정색(--band-1~4)은 칸이 있는 축에만.
+   ========================================================================= */
+
+/* 글꼴은 app/layout.tsx 의 next/font/local 이 저장소 안 파일(app/fonts)로 싣는다 — 외부 CDN 을 기다리지 않아 첫 화면부터 그 글꼴이다. */
+
+:root {
+  color-scheme: light;
+
+  /* ── 색 (§4) ─────────────────────────────────────────── */
+  --bg: #f6f4f0;
+  --surface: #ffffff;
+  --sunken: #efece6;
+  --line: #ebe7e0;
+  --t1: #1a1a18;
+  --t2: #66645f;
+  --t3: #a29f98;
+  --brand: #ee6a35;
+  --brand-ink: #d9561f;
+  --brand-soft: #fdeee6;
+  --on-brand: #ffffff;
+  --ink: #1a1a18;          /* 잉크 면(다운로드 밴드·앱스토어 버튼) */
+  --on-ink: #f6f4f0;
+
+  /* 판정 칸 1~4 (dot / text) */
+  --band-1: #12896a; --band-1-t: #0b6a50;
+  --band-2: #c69a2f; --band-2-t: #876316;
+  --band-3: #cf8336; --band-3-t: #9a531f;
+  --band-4: #cf5340; --band-4-t: #9c3528;
+
+  /* 식품 타일 틴트 (§6 · app/src/theme/tokens.ts FOOD_TINTS) */
+  --tile-snack-bg: #fbead3;   --tile-snack-ink: #b5712a;
+  --tile-drink-bg: #ddebf3;   --tile-drink-ink: #3f7896;
+  --tile-noodle-bg: #f5e7c8;  --tile-noodle-ink: #9c782b;
+  --tile-dairy-bg: #e7e8f5;   --tile-dairy-ink: #5d5f99;
+  --tile-bakery-bg: #f2e2d4;  --tile-bakery-ink: #986340;
+  --tile-protein-bg: #f5e0d8; --tile-protein-ink: #9e5848;
+  --tile-sauce-bg: #ece2ef;   --tile-sauce-ink: #7b5a84;
+  --tile-other-bg: #e9e6df;   --tile-other-ink: #757168;
+
+  --shadow: 0 1px 2px rgba(40, 32, 20, 0.04), 0 8px 24px -12px rgba(40, 32, 20, 0.12);
+  --shadow-lift: 0 2px 4px rgba(40, 32, 20, 0.05), 0 20px 40px -20px rgba(40, 32, 20, 0.28);
+
+  /* 섹션 밴드 — 바탕 · 틴트 · 잉크 · 오렌지를 번갈아 리듬을 만든다 */
+  --band-tint: #efece6;
+  --band-warm: #fdeee6;
+  --band-ink: #1a1a18;
+  --band-orange: #ee6a35;
+  /* 라벨 시트 — 섹션이 위 모서리만 둥근 면으로 앞 섹션 위에 겹쳐 올라온다(DESIGN_RULES §5-1 · 앱과 같은 규칙) */
+  --sheet-r: clamp(28px, 2.4vw + 16px, 48px);
+
+  /* ── 글자 일곱 단계 (§3) — 앱 값을 바닥으로, 데스크톱에서만 키운다 ── */
+  --font-display: var(--font-hanna), var(--font-pretendard), system-ui, sans-serif;
+  --font-body: var(--font-pretendard), -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', sans-serif;
+
+  /* 2026-11-02: rem + clamp — 브라우저 글자 크기 설정과 화면 폭을 따라가되 최솟값(전의 px 값) 아래로는 줄지 않는다. */
+  --f-display: 400 clamp(2rem, 1.5rem + 2.4vw, 4rem) / 1.18 var(--font-display);
+  --f-title: 600 clamp(1.1875rem, 1.0625rem + 0.5vw, 1.5rem) / 1.36 var(--font-body); /* 800 → 700 → 600 · 22 → 19: 미니멀(2026-11-02 사용자 · 앱 type.ts 와 같게) */
+  --f-headline: 600 clamp(1rem, 0.9rem + 0.25vw, 1.125rem) / 1.4 var(--font-body);
+  --f-strong: 600 clamp(0.875rem, 0.83rem + 0.2vw, 0.9375rem) / 1.45 var(--font-body);
+  --f-body: 500 clamp(0.84rem, 0.8rem + 0.15vw, 0.9rem) / 1.5 var(--font-body);
+  --f-caption: 500 clamp(0.75rem, 0.71rem + 0.1vw, 0.8125rem) / 1.42 var(--font-body);
+  --f-micro: 600 clamp(0.6875rem, 0.66rem + 0.08vw, 0.75rem) / 1.27 var(--font-body);
+
+  /* ── 간격 4 pt 격자 (§1) ─────────────────────────────── */
+  --s-hair: 4px;
+  --s-tight: 8px;
+  --s-stack: 12px;
+  --s-row: 14px;
+  --s-inner: 16px;
+  --s-card: 24px;          /* 데스크톱 카드 안쪽 (inner 의 1.5배, 4 pt 배수) */
+  --s-section: 28px;
+  --gutter: clamp(20px, 4vw, 56px);
+  --s-band: clamp(72px, 9vw, 136px);   /* 랜딩 섹션 사이 */
+  /* 모든 페이지가 같은 최대 폭(2026-11-03 사용자 — 페이지마다 720 · 960 · 1200 으로 달라 이상했다). 화면별 폭을 따로 두지 않는다. */
+  --max: 1080px;
+  --side: 320px;   /* PC 두 단의 옆 단 */
+  --nav-h: 112px;  /* 모바일 헤더 두 줄(로고 줄 + 검색 줄) — 앵커 스크롤 여백에만 쓴다 */
+
+  /* ── 모서리 (§2) ─────────────────────────────────────── */
+  --r-card: 20px;
+  --r-tile: 14px;
+  --r-button: 16px;
+  --r-pill: 999px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* 다크 — 애쉬 팔레트 (§4). 시스템 설정을 따른다. */
+/* 테마(2026-11-03 사용자) — 기본은 기기 설정. 헤더의 해 · 달 · 시스템(components/ThemeToggle)이 <html data-theme="light|dark"> 로 고정한다.
+   같은 다크 토큰을 두 번 적는다: 기기가 다크인데 라이트로 고정하지 않았을 때 · 다크로 고정했을 때. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #2c2d30;
+    --surface: #37383c;
+    --sunken: #242528;
+    --line: rgba(255, 255, 255, 0.07);
+    --t1: #edece9;
+    --t2: #bdbcb8;
+    --t3: #94938f;
+    --brand: #b65a37;
+    --brand-ink: #e3a283;
+    --brand-soft: #4a3d37;
+    --on-brand: #fbeee8;
+    --ink: #1f2023;
+    --on-ink: #edece9;
+    --band-1: #2fb088; --band-1-t: #62d0a8;
+    --band-2: #bda35f; --band-2-t: #d6c287;
+    --band-3: #c48a5e; --band-3-t: #dcac86;
+    --band-4: #c0736a; --band-4-t: #dc9c93;
+    --tile-snack-bg: rgba(181, 113, 42, 0.22);   --tile-snack-ink: #fbead3;
+    --tile-drink-bg: rgba(63, 120, 150, 0.22);   --tile-drink-ink: #ddebf3;
+    --tile-noodle-bg: rgba(156, 120, 43, 0.22);  --tile-noodle-ink: #f5e7c8;
+    --tile-dairy-bg: rgba(93, 95, 153, 0.22);    --tile-dairy-ink: #e7e8f5;
+    --tile-bakery-bg: rgba(152, 99, 64, 0.22);   --tile-bakery-ink: #f2e2d4;
+    --tile-protein-bg: rgba(158, 88, 72, 0.22);  --tile-protein-ink: #f5e0d8;
+    --tile-sauce-bg: rgba(123, 90, 132, 0.22);   --tile-sauce-ink: #ece2ef;
+    --tile-other-bg: rgba(117, 113, 104, 0.22);  --tile-other-ink: #e9e6df;
+    --shadow: none;
+    --shadow-lift: 0 16px 32px -20px rgba(0, 0, 0, 0.6);
+    --band-tint: #242528;
+    --band-warm: #37383c;
+    --band-ink: #1c1d1f;
+    --band-orange: #b65a37;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #2c2d30;
+  --surface: #37383c;
+  --sunken: #242528;
+  --line: rgba(255, 255, 255, 0.07);
+  --t1: #edece9;
+  --t2: #bdbcb8;
+  --t3: #94938f;
+  --brand: #b65a37;
+  --brand-ink: #e3a283;
+  --brand-soft: #4a3d37;
+  --on-brand: #fbeee8;
+  --ink: #1f2023;
+  --on-ink: #edece9;
+  --band-1: #2fb088; --band-1-t: #62d0a8;
+  --band-2: #bda35f; --band-2-t: #d6c287;
+  --band-3: #c48a5e; --band-3-t: #dcac86;
+  --band-4: #c0736a; --band-4-t: #dc9c93;
+  --tile-snack-bg: rgba(181, 113, 42, 0.22);   --tile-snack-ink: #fbead3;
+  --tile-drink-bg: rgba(63, 120, 150, 0.22);   --tile-drink-ink: #ddebf3;
+  --tile-noodle-bg: rgba(156, 120, 43, 0.22);  --tile-noodle-ink: #f5e7c8;
+  --tile-dairy-bg: rgba(93, 95, 153, 0.22);    --tile-dairy-ink: #e7e8f5;
+  --tile-bakery-bg: rgba(152, 99, 64, 0.22);   --tile-bakery-ink: #f2e2d4;
+  --tile-protein-bg: rgba(158, 88, 72, 0.22);  --tile-protein-ink: #f5e0d8;
+  --tile-sauce-bg: rgba(123, 90, 132, 0.22);   --tile-sauce-ink: #ece2ef;
+  --tile-other-bg: rgba(117, 113, 104, 0.22);  --tile-other-ink: #e9e6df;
+  --shadow: none;
+  --shadow-lift: 0 16px 32px -20px rgba(0, 0, 0, 0.6);
+  --band-tint: #242528;
+  --band-warm: #37383c;
+  --band-ink: #1c1d1f;
+  --band-orange: #b65a37;
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+@media (min-width: 760px) {
+  :root { --nav-h: 68px; }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--t1);
+  font: var(--f-body);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, p, ul, ol, figure, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+svg { display: block; flex-shrink: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--brand-ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* 입력칸 · 버튼은 초점 테두리(outline)를 쓰지 않는다(2026-11-03 사용자) — 입력칸은 자기 테두리 색으로 초점을 보인다 */
+input, textarea, select, button,
+input:focus, textarea:focus, select:focus, button:focus,
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible {
+  outline: none;
+}
+
+/* ── 글자 유틸 — 일곱 단계 그대로 ───────────────────────── */
+.t-display { font: var(--f-display); letter-spacing: -0.01em; }
+.t-title { font: var(--f-title); letter-spacing: -0.02em; }
+.t-headline { font: var(--f-headline); letter-spacing: -0.01em; }
+.t-strong { font: var(--f-strong); }
+.t-body { font: var(--f-body); }
+.t-caption { font: var(--f-caption); }
+.t-micro { font: var(--f-micro); letter-spacing: 0.02em; }
+.c-t2 { color: var(--t2); }
+.c-t3 { color: var(--t3); }
+.c-brand { color: var(--brand-ink); }
+
+/* ── 골조 ───────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* ── PC · 모바일 골조(2026-11-03) — 모바일 한 단, PC(1024~) 두 단. 옆 단은 헤더 아래에 붙어 따라온다 ── */
+.layout {
+  display: grid;
+  gap: var(--s-section);
+  align-items: start;
+}
+.layout > * { min-width: 0; }
+.layout-main, .layout-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-section);
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .layout { grid-template-columns: minmax(0, 1fr) var(--side); gap: 40px; }
+  .layout.side-left { grid-template-columns: var(--side) minmax(0, 1fr); }
+  .layout-side { position: sticky; top: calc(var(--nav-h) + 20px); }
+}
+.pc-only { display: none !important; }
+@media (min-width: 1024px) {
+  .pc-only { display: revert !important; }
+  .m-only { display: none !important; }
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── 섹션 밴드 · 색 범위 ─────────────────────────────────
+   밴드 안에서는 토큰을 다시 정의해 자식 컴포넌트가 그대로 따라오게 한다. */
+.band-tint { background: var(--band-tint); --sunken: var(--surface); }
+.band-warm { background: var(--band-warm); }
+
+.band-ink {
+  background: var(--band-ink);
+  color-scheme: dark;
+  --bg: var(--band-ink);
+  --surface: #2b2a27;
+  --sunken: #242320;
+  --line: rgba(246, 244, 240, 0.1);
+  --t1: #f6f4f0;
+  --t2: rgba(246, 244, 240, 0.7);
+  --t3: rgba(246, 244, 240, 0.45);
+  --brand-ink: #f39a6f;
+  --brand-soft: rgba(238, 106, 53, 0.18);
+  --shadow: none;
+  color: var(--t1);
+}
+
+.band-orange {
+  background: var(--band-orange);
+  --t1: #1a1a18;
+  --t2: rgba(26, 26, 24, 0.78);
+  --t3: rgba(26, 26, 24, 0.55);
+  --line: rgba(26, 26, 24, 0.14);
+  --brand: #1a1a18;
+  --brand-ink: #1a1a18;
+  color: var(--t1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .band-orange {
+    --t1: #fbeee8;
+    --t2: rgba(251, 238, 232, 0.8);
+    --t3: rgba(251, 238, 232, 0.6);
+    --line: rgba(251, 238, 232, 0.18);
+    --brand: #fbeee8;
+    --brand-ink: #fbeee8;
+  }
+}
+:root[data-theme="dark"] .band-orange {
+  --t1: #fbeee8;
+  --t2: rgba(251, 238, 232, 0.8);
+  --t3: rgba(251, 238, 232, 0.6);
+  --line: rgba(251, 238, 232, 0.18);
+  --brand: #fbeee8;
+  --brand-ink: #fbeee8;
+}
+
+/* 라벨 시트 — 앞 섹션 위로 둥근 모서리만큼 겹쳐 올라온다. 모서리 뒤로는 앞 섹션 색이 보인다.
+   사선(2026-11-02 1차)은 서비스와 안 어울리고 어디서나 같은 모양이라 걷었다. 내용은 시트 안에서만 그린다. */
+.sheet {
+  position: relative;
+  margin-top: calc(var(--sheet-r) * -1);
+  border-radius: var(--sheet-r) var(--sheet-r) 0 0;
+  padding-bottom: calc(var(--s-band) + var(--sheet-r)) !important;
+}
+.sheet-paper { background: var(--bg); }
+
+/* 면 번짐(§5-2 · 앱과 같은 구성) — 잉크 시트 왼쪽 아래 불씨 하나. 밝은 면(톤·바탕) 위의 밝은 번짐은 뺐다(2026-11-02 사용자). */
+.sheet.band-ink {
+  background: radial-gradient(80% 90% at 0% 100%, color-mix(in srgb, var(--band-orange) 18%, transparent), transparent 70%), var(--band-ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sheet.band-ink { background: radial-gradient(80% 90% at 0% 100%, color-mix(in srgb, var(--band-orange) 12%, transparent), transparent 70%), var(--band-ink); }
+}
+:root[data-theme="dark"] .sheet.band-ink { background: radial-gradient(80% 90% at 0% 100%, color-mix(in srgb, var(--band-orange) 12%, transparent), transparent 70%), var(--band-ink); }
+
+/* 겹친 시트 두께 — 위로 옅은 그림자(라이트만). 종이가 한 장 더 붙은 느낌 */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .sheet { box-shadow: 0 -10px 24px -16px rgba(40, 32, 20, 0.22); }
+}
+:root[data-theme="light"] .sheet { box-shadow: 0 -10px 24px -16px rgba(40, 32, 20, 0.22); }
+
+/* 면 무늬(§5-2) — 전부 시트 안 오른쪽 위에만, 내용 뒤에. 글자와 겹치지 않는 자리에 둔다.
+   톤 시트: 종이 결(점 격자가 오른쪽 위에서 퍼지며 사라진다) */
+.sheet.band-tint::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto auto;
+  width: min(520px, 70%);
+  height: 360px;
+  border-top-right-radius: var(--sheet-r);
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--t1) 12%, transparent) 1.2px, transparent 1.6px);
+  background-size: 16px 16px;
+  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, #000 0%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 100% 0%, #000 0%, transparent 70%);
+  pointer-events: none;
+}
+/* 잉크 시트: 영양정보 표의 굵은 막대 + 가는 줄 둘 — 섹션 머리(작은 라벨) 줄 높이 안에만 */
+/* 라벨 글씨 — 원재료 표기처럼 옅고 흐릿한 글자 몇 줄(앱 Motif.LabelText). 막대 그림은 2026-11-02 철회(사용자 「막대가 안 어울린다」). */
+.sheet.band-ink::before {
+  content: '원재료명 밀가루, 설탕, 식물성유지\A정제소금, 탄산칼슘, 프로피온산칼슘\A대두, 우유, 밀 함유';
+  white-space: pre;
+  position: absolute;
+  top: calc(var(--s-band) + 2px);
+  right: max(var(--gutter), calc((100% - var(--max)) / 2));
+  font: 500 10px / 13px var(--font-body);
+  text-align: right;
+  color: var(--t1);
+  opacity: 0.18;
+  filter: blur(1.6px);
+  pointer-events: none;
+}
+.sheet > * { position: relative; }
+.sheet-last { padding-bottom: var(--s-band) !important; } /* 뒤에 시트가 안 오는 마지막 면 */
+
+/* ── 스크롤 등장 — JS 가 켜졌을 때만 숨긴다(꺼져 있으면 그냥 보인다) ── */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 400ms var(--ease), transform 400ms var(--ease);
+}
+.js-reveal [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* 등장 + 들림을 같이 가진 카드 — 두 transition 이 서로 덮지 않게 합친다 */
+.js-reveal [data-reveal].lift {
+  transition: opacity 400ms var(--ease), transform 300ms var(--ease), box-shadow 200ms var(--ease), border-color 200ms var(--ease);
+}
+
+/* 카드 들림 */
+.lift {
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), border-color 200ms var(--ease);
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal] { opacity: 1; transform: none; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* ── 불러오는 중 자리(loading.tsx) — 누르는 즉시 다음 화면의 뼈대가 뜬다(INP). 반복 애니메이션은 쓰지 않는다(§8). */
+.skel { background: var(--sunken); border-radius: var(--r-tile, 14px); }
+.skel-page { display: flex; flex-direction: column; gap: var(--s-section); padding-top: var(--s-section); padding-bottom: var(--s-band); }
+.skel-row { display: flex; gap: var(--s-stack); align-items: center; }
+
+/* 첫 화면 아래쪽 띠(읽는 법 · 앱 받기) — 화면 밖이면 그리기를 미룬다(긴 첫 화면의 스타일 계산 · 그리기를 줄인다).
+   바깥 그림자가 없는 전폭 띠에만 쓴다 — paint containment 가 상자 밖(그림자 · 음수 여백)을 자른다. */
+.offscreen { content-visibility: auto; contain-intrinsic-size: auto 720px; }
+
+/* 서식 글자(components/Rich) — KaTeX 수식이 본문 글자 크기·색을 따른다(KaTeX 기본 1.21em 은 본문보다 커 튀었다) */
+.rich-math .katex { font-size: 1em; color: inherit; }
+/* 여러 줄 서식 글(components/Rich) — 문단은 줄 사이를 조금 띄우고, 목록은 글머리표 뒤로 내어쓴다(2026-11-05). */
+.rich-p, .rich-li { display: block; }
+.rich-p:empty { display: none; }
+.rich-p + .rich-p, .rich-li + .rich-p, .rich-p + .rich-li { margin-top: 0.45em; }
+.rich-li + .rich-li { margin-top: 0.2em; }
+.rich-li { display: grid; grid-template-columns: auto 1fr; column-gap: 0.45em; }
+/* 수식 안 글자도 본문 글꼴 — KaTeX 세리프(KaTeX_Main)가 「69 g」을 튀게 했다. 기호(≈ × ≤)도 본문 글꼴에 있다. */
+.rich-math .katex, .rich-math .katex * { font-family: inherit !important; }

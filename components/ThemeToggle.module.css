@@ -1,0 +1,32 @@
+/* 해 · 달 · 시스템 세 칸 라디오 — 알약 안의 작은 원 셋(터치 영역은 칸 높이 36 + 바깥 여백) */
+.group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: var(--sunken);
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.opt {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--t3);
+  transition: background 160ms var(--ease), color 160ms var(--ease), transform 140ms var(--ease);
+}
+
+.opt:hover { color: var(--t1); }
+.opt:active { transform: scale(0.9); }
+
+.on {
+  background: var(--surface);
+  color: var(--brand-ink);
+  box-shadow: var(--shadow);
+}

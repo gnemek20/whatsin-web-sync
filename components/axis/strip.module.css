@@ -1,0 +1,56 @@
+/* 목록 행 세 축 한 줄 — 세 칸 같은 폭, 칸 안 가운데, 칸 사이 짧은 세로선(위아래로 닫히지 않게) */
+.strip {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.cell {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 var(--s-hair);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rule {
+  flex: none;
+  width: 1px;
+  height: 10px;
+  background: var(--line);
+}
+
+/* 상세 맨 위 요약 카드 */
+.summary {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--s-tight);
+}
+
+.sumCell {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-hair);
+  padding: var(--s-inner) 6px;
+  text-align: center;
+}
+
+.sumValue {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sumRule {
+  flex: none;
+  width: 1px;
+  height: 28px;
+  background: var(--line);
+}

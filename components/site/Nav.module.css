@@ -1,0 +1,158 @@
+/* 사이트 머리(2026-11-03 다시 짬) — 붙어 따라오는 반투명 바. 검색은 늘 손 닿는 자리에.
+   PC(760~): 한 줄 격자 「로고 | 검색(가운데 · 최대 560) | 메뉴」 · 모바일: 「로고 | 메뉴」 위 줄 + 검색 아래 줄. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'brand search links';
+  align-items: center;
+  column-gap: var(--s-card);
+  height: 68px;
+}
+
+.brand {
+  grid-area: brand;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+}
+
+.wordmark {
+  font: var(--f-headline);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--t1);
+}
+
+.search {
+  grid-area: search;
+  width: 100%;
+  max-width: 560px;
+  justify-self: center;
+  transition: opacity 200ms var(--ease), transform 240ms var(--ease);
+}
+
+.searchInline,
+.searchFloat {
+  opacity: 1;
+}
+
+/* 큰 검색창이 보이는 동안 — 자리는 두고 숨긴다(PC) */
+.searchAway {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+.links {
+  grid-area: links;
+  display: flex;
+  align-items: center;
+  gap: var(--s-hair);
+}
+
+.links > :global([role='radiogroup']) {
+  margin-right: var(--s-tight);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-tight);
+  height: 40px;
+  padding: 0 var(--s-stack);
+  border-radius: var(--r-pill);
+  font: var(--f-strong);
+  color: var(--t2);
+  transition: color 160ms var(--ease), background 160ms var(--ease);
+}
+
+.link:hover {
+  color: var(--t1);
+  background: var(--sunken);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  margin-left: var(--s-tight);
+  padding: 0 var(--s-inner);
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  color: var(--on-brand);
+  font: var(--f-strong);
+  white-space: nowrap;
+  transition: filter 160ms var(--ease);
+}
+
+.cta:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 1023px) {
+  .wide {
+    display: none;
+  }
+}
+
+/* 모바일 — 두 줄. 큰 검색창이 있는 첫 화면에서는 검색 줄이 헤더 아래에 떠 있다가(높이 변화 없음) 스크롤하면 내려온다 */
+@media (max-width: 759px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'brand links' 'search search';
+    height: auto;
+    padding-top: 6px;
+    padding-bottom: 10px;
+    row-gap: 6px;
+  }
+  .search {
+    max-width: none;
+  }
+  .searchFloat {
+    /* 격자 칸 안에서 떠 있으면 그 칸(여백 안쪽)이 기준이다 — 여백만큼 양옆으로 넓혀 헤더 폭에 맞춘다 */
+    position: absolute;
+    left: calc(var(--gutter) * -1);
+    right: calc(var(--gutter) * -1);
+    width: auto;
+    top: calc(100% + 10px);
+    padding: 0 var(--gutter) 10px;
+    background: var(--bg);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .searchAway {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  .cta {
+    margin-left: var(--s-hair);
+    padding: 0 var(--s-stack);
+  }
+}
+
+@media (max-width: 400px) {
+  /* 좁은 폰 — 「검색」은 돋보기만(이름은 aria 로) */
+  .linkText {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .link {
+    padding: 0 var(--s-tight);
+  }
+  .links :global([role='radiogroup']) button {
+    width: 30px;
+    height: 30px;
+  }
+}

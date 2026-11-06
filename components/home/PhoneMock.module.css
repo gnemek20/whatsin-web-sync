@@ -1,0 +1,204 @@
+/* 휴대폰 틀 — 앱 화면을 실제 크기(1:1)로 그린다. 글자는 앱과 같은 일곱 단계. */
+.phone {
+  position: relative;
+  width: 320px;
+  height: 640px;
+  padding: 10px;
+  border-radius: 52px;
+  background: #1c1c1e;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 40px 80px -32px rgba(60, 40, 20, 0.45),
+    inset 0 0 0 2px #3a3a3c;
+}
+
+.screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 42px;
+  background: var(--bg);
+  color: var(--t1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+}
+
+.screen::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 28px;
+}
+
+.island {
+  width: 92px;
+  height: 26px;
+  border-radius: var(--r-pill);
+  background: #1c1c1e;
+}
+
+.bat {
+  width: 24px;
+  height: 11px;
+  border-radius: 3px;
+  border: 1.5px solid var(--t1);
+  box-shadow: inset 0 0 0 1.5px var(--bg);
+  background: var(--t1);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 var(--s-inner);
+  margin-top: calc(var(--s-tight) * -1);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-stack);
+  padding: 0 var(--s-inner);
+}
+
+.titleText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.titleText > :last-child {
+  font-weight: 600;
+}
+
+.axes {
+  margin: 0 var(--s-stack);
+  padding: var(--s-hair) var(--s-inner);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+}
+
+.axRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-tight);
+  height: 48px;
+}
+
+.axRow + .axRow {
+  border-top: 1px solid var(--line);
+}
+
+.axIcon {
+  display: inline-flex;
+  color: var(--t3);
+}
+
+.axName {
+  width: 48px;
+  flex-shrink: 0;
+}
+
+.axLong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.axMeter {
+  margin-left: auto;
+  width: 64px;
+  display: inline-flex;
+}
+
+.axBar {
+  margin-left: auto;
+  width: 64px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--sunken);
+  overflow: hidden;
+}
+
+.axBar > span {
+  display: block;
+  height: 100%;
+  background: var(--t2);
+  border-radius: var(--r-pill);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-tight);
+  padding: 0 var(--s-inner);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.alt {
+  display: flex;
+  align-items: center;
+  gap: var(--s-stack);
+  padding: var(--s-stack);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+}
+
+.altText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-hair);
+}
+
+.one {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ups {
+  display: flex;
+  gap: var(--s-hair);
+}
+
+.up {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px 0 2px;
+  border-radius: var(--r-pill);
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+}

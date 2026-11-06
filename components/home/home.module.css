@@ -1,0 +1,520 @@
+/* 첫 화면 — 섹션 사이 --s-band, 섹션 제목 → 내용 40, 칸 사이 --s-stack/24.
+   모든 섹션은 .container 의 왼쪽 선(gutter)에서 시작한다. */
+
+.eyebrow {
+  color: var(--brand-ink);
+  text-transform: uppercase;
+}
+
+/* ── 히어로 ─────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 64px 0 var(--s-band);
+  /* 빛 번짐 없음 — 밝은 면 위의 밝은 그라데이션은 뺐다(2026-11-02 사용자) */
+  background: var(--bg);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-card);
+  max-width: 560px;
+}
+
+.heroLine {
+  margin-top: calc(var(--s-stack) * -1);
+}
+
+.heroSub b {
+  color: var(--t1);
+  font-weight: 600;
+}
+
+.heroSearch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  margin-top: var(--s-tight);
+}
+
+.samples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-tight);
+  padding-left: var(--s-tight);
+}
+
+.sample {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 var(--s-stack);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  font: var(--f-caption);
+  color: var(--t2);
+  transition: color 160ms var(--ease), border-color 160ms var(--ease);
+}
+
+.sample:hover {
+  color: var(--t1);
+  border-color: var(--t3);
+}
+
+.heroApp {
+  display: flex;
+  align-items: center;
+  gap: var(--s-inner);
+  margin-top: var(--s-tight);
+  padding-top: var(--s-card);
+  border-top: 1px solid var(--line);
+}
+
+.heroArt {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 680px;
+  align-items: center;
+}
+
+.phoneLink {
+  position: relative;
+  z-index: 2;
+  display: block;
+  transition: transform 200ms var(--ease);
+}
+
+.phoneLink:hover {
+  transform: translateY(-4px);
+}
+
+.float {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  box-shadow: 0 16px 32px -20px rgba(60, 40, 20, 0.35);
+  border-radius: var(--r-card);
+}
+
+.f1 { left: 2%; top: 14%; transform: rotate(-10deg); }
+.f2 { right: 6%; top: 6%; transform: rotate(12deg); }
+.f3 { right: 0; bottom: 18%; transform: rotate(8deg); }
+.f4 { left: 10%; bottom: 10%; transform: rotate(-6deg); }
+.f5 { left: 0; top: 50%; transform: rotate(6deg); }
+
+.widget {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--s-stack) var(--s-inner);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-tile);
+  box-shadow: 0 20px 40px -24px rgba(60, 40, 20, 0.4);
+}
+
+.w1 {
+  left: 0;
+  bottom: 8%;
+  max-width: 208px;
+}
+
+.w2 {
+  right: 0;
+  top: 22%;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--s-tight);
+}
+
+.brDesk {
+  display: inline;
+}
+
+/* 떠 있는 타일 — 스크롤에 따라 조금 더 빨리 올라간다(CSS 스크롤 타임라인 · 지원 브라우저만) */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .float {
+      animation: drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 900px;
+    }
+    .f2, .f4 { animation-name: drift-slow; }
+  }
+}
+
+@keyframes drift {
+  to { translate: 0 -96px; }
+}
+
+@keyframes drift-slow {
+  to { translate: 0 -48px; }
+}
+
+/* ── 섹션 공통 ─────────────────────────────────────── */
+.band {
+  padding: var(--s-band) 0;
+}
+
+/* 아래 여백은 .sheet 가 준다(다음 시트가 모서리만큼 올라온다) */
+.howBand {}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+/* ── 세 축 ─────────────────────────────────────────── */
+.axesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--t1);
+}
+
+.axisCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  padding: var(--s-card) var(--s-card) 0 var(--s-card);
+  border-left: 1px solid var(--line);
+}
+
+.axisCol:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.axisCol:last-child {
+  padding-right: 0;
+}
+
+.axisArt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 176px;
+  margin-bottom: var(--s-stack);
+  padding: var(--s-card);
+  border-radius: var(--r-card);
+  background: var(--sunken);
+}
+
+.axisName {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-hair);
+}
+
+.axisSrc {
+  margin-top: var(--s-hair);
+}
+
+.artScale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-tight);
+  width: 100%;
+}
+
+.artScaleRow {
+  display: grid;
+  grid-template-columns: 1fr 88px;
+  align-items: center;
+  gap: var(--s-stack);
+}
+
+.artScaleBar {
+  height: 10px;
+  border-radius: var(--r-pill);
+}
+
+.artSvg {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
+
+.artChips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-tight);
+}
+
+.artChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 var(--s-stack);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+/* ── 둘러보기 ─────────────────────────────────────── */
+.exploreGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-stack);
+}
+
+.coll,
+.today {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-tight);
+  min-height: 232px;
+  padding: var(--s-card);
+  border-radius: var(--r-card);
+  transition: transform 160ms var(--ease), border-color 160ms var(--ease);
+}
+
+.coll:hover {
+  border-color: var(--t3);
+}
+
+.collIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: auto;
+  border-radius: var(--r-tile);
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+}
+
+.collGo {
+  position: absolute;
+  right: var(--s-card);
+  top: var(--s-card);
+  color: var(--t3);
+}
+
+.today {
+  background: var(--band-warm);
+  border: 1px solid color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+.todayTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-tight);
+  margin-bottom: auto;
+}
+
+/* ── 읽는 법 ─────────────────────────────────────── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-card);
+  counter-reset: step;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-tight);
+}
+
+.stepArt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--s-stack);
+  border-radius: var(--r-card);
+  background: var(--sunken);
+}
+
+.step:hover .stepArt {
+  transform: translateY(-4px);
+}
+
+.stepArt {
+  transition: transform 200ms var(--ease);
+}
+
+.stepSvg {
+  width: 62%;
+  height: auto;
+}
+
+.stepNo {
+  color: var(--brand-ink);
+}
+
+.promises {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-stack) 40px;
+  margin-top: 56px;
+  padding-top: var(--s-card);
+  border-top: 1px solid var(--line);
+}
+
+.promises > li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-tight);
+}
+
+/* ── 앱 받기 — 오렌지 밴드 ───────────────────────── */
+.dlBand {
+  padding: var(--s-band) 0;
+}
+
+.dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+}
+
+.dlCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-inner);
+}
+
+.dlBody {
+  max-width: 420px;
+  margin-bottom: var(--s-tight);
+}
+
+.dlArt {
+  display: flex;
+  justify-content: center;
+  color: var(--t1);
+}
+
+.scanSvg {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+}
+
+/* ── 태블릿 ─────────────────────────────────────── */
+@media (max-width: 1039px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+  }
+  .heroCopy {
+    max-width: 640px;
+  }
+  .exploreGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .axesGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .axisCol,
+  .axisCol:first-child,
+  .axisCol:last-child {
+    padding: var(--s-card) 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .axisCol:first-child {
+    border-top: 0;
+  }
+}
+
+/* ── 모바일 ─────────────────────────────────────── */
+@media (max-width: 759px) {
+  .hero {
+    padding-top: 40px;
+    padding-bottom: 0;
+  }
+  .heroCopy {
+    gap: var(--s-inner);
+  }
+  .heroLine {
+    margin-top: 0;
+  }
+  .brDesk {
+    display: none;
+  }
+  .heroApp {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-stack);
+  }
+  .heroArt {
+    min-height: 0;
+    margin: 0 calc(var(--gutter) * -1);
+    height: 520px;
+    overflow: hidden;
+    align-items: flex-start;
+    padding-top: var(--s-tight);
+    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent);
+    mask-image: linear-gradient(to bottom, #000 72%, transparent);
+  }
+  .w1,
+  .w2,
+  .f4,
+  .f5 {
+    display: none;
+  }
+  .f1 { left: -12px; top: 40px; }
+  .f2 { right: 8px; top: 8px; }
+  .f3 { right: -20px; bottom: auto; top: 240px; }
+  .head {
+    margin-bottom: var(--s-section);
+  }
+  .exploreGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .coll,
+  .today {
+    min-height: 0;
+    padding: var(--s-inner);
+  }
+  .collIcon {
+    margin-bottom: var(--s-tight);
+  }
+  .todayTag {
+    margin-bottom: 0;
+  }
+  .collGo {
+    right: var(--s-inner);
+    top: var(--s-inner);
+  }
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+  .stepArt {
+    aspect-ratio: 16 / 9;
+  }
+  .promises {
+    flex-direction: column;
+    margin-top: 40px;
+  }
+  .dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dlArt {
+    display: none;
+  }
+}
