@@ -1,0 +1,49 @@
+/* 내 기준 한 줄 · 커뮤니티 새 글(2026-11-14) */
+.lensLine { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.lensLabel { font: var(--f-micro); color: var(--brand-ink); margin-right: 4px; }
+.lensChip {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--r-pill);
+  font: var(--f-caption);
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+}
+.lensAvoid { background: var(--surface); color: var(--t2); box-shadow: inset 0 0 0 1px var(--line); }
+.lensEdit {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  font: var(--f-caption);
+  font-weight: 600;
+  color: var(--t2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.lensEdit:hover { color: var(--t1); background: var(--hover); }
+
+.posts { display: flex; flex-direction: column; }
+.post { display: flex; flex-direction: column; gap: 4px; padding: 14px 20px; transition: background-color var(--t-fast) var(--ease); }
+.post + .post { border-top: 1px solid var(--line); }
+.post:hover { background: var(--hover); }
+.post:hover .postTitle { color: var(--brand-ink); }
+.postTitle { font: var(--f-strong); transition: color var(--t-fast) var(--ease); }
+.postMeta { font: var(--f-micro); font-weight: 500; color: var(--t3); }
+.more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px;
+  border-top: 1px solid var(--line);
+  font: var(--f-caption);
+  font-weight: 600;
+  color: var(--t2);
+  transition: color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.more:hover { color: var(--brand-ink); background: var(--hover); }

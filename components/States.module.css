@@ -1,0 +1,33 @@
+/* 빈 상태 · 실패 상태 — 가운데 세로 흐름. 그림 → 제목 → 설명 → 행동. */
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-stack);
+  padding: clamp(56px, 8vw, 112px) var(--s-inner);
+  text-align: center;
+}
+.box > h2 { font: var(--f-title); letter-spacing: -0.025em; }
+.box > p { max-width: 440px; }
+.art {
+  color: var(--t3);
+  margin-bottom: var(--s-tight);
+  padding: 18px;
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  background: var(--sunken);
+}
+.retry {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  margin-top: var(--s-tight);
+  padding: 0 28px;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  color: var(--on-brand);
+  font: var(--f-strong);
+  transition: background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.retry:hover { background: var(--brand-ink); transform: translateY(-1px); }

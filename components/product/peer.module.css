@@ -1,0 +1,15 @@
+/* 같은 종류와 견주면 — 위: 순위 문장, 아래: 축마다 아이콘 · 이름 · 나은 비율. 판정색은 「가장 좋음」에만. */
+.card { display: flex; flex-direction: column; gap: 18px; padding: var(--s-card); }
+.head { display: flex; flex-direction: column; gap: 4px; }
+.head h2 { margin: 0; font: var(--f-headline); }
+.best { color: var(--band-1-t); }
+.axes { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.axes li { display: flex; align-items: center; gap: var(--s-stack); min-height: 52px; }
+.axes li + li { border-top: 1px solid var(--line); }
+.axes li > span:nth-child(2) { flex: 1; }
+.icon { width: 36px; height: 36px; border-radius: 11px; background: var(--sunken); color: var(--t2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.silent { padding: 0 var(--s-hair); }
+.sk { display: block; height: 14px; border-radius: 7px; background: var(--sunken); }
+.rankRow { display: flex; align-items: baseline; gap: var(--s-tight); flex-wrap: wrap; }
+.top { padding: 3px 10px; border-radius: var(--r-pill); background: var(--brand-soft); color: var(--brand-ink); }
+.line { margin: 4px 0 0; color: var(--t1); }

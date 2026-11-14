@@ -1,0 +1,166 @@
+/* 처음 화면(2026-11-14 개편) — 첫 면(한 줄 · 검색 · 휴대폰) → 세 가지 → 둘러보기 → 읽는 법(반전 면) → 앱 받기(그린 면).
+   면은 겹쳐 올라오지 않고 바탕 · 한 단 낮은 면 · 반전 면 · 그린 면으로 리듬을 만든다. 전부 flex. */
+
+.eyebrow { font: var(--f-strong); color: var(--brand-ink); }
+.brDesk { display: none; }
+@media (min-width: 1024px) { .brDesk { display: inline; } }
+
+/* ── 첫 면 ───────────────────────────────────────────── */
+.hero {
+  display: flex;
+  overflow: hidden;
+  padding: clamp(40px, 6vw, 96px) 0 clamp(56px, 7vw, 120px);
+  background:
+    radial-gradient(55% 70% at 85% 30%, color-mix(in srgb, var(--brand) 12%, transparent), transparent 70%),
+    var(--bg);
+}
+.heroInner { display: flex; flex-direction: column; gap: clamp(48px, 6vw, 80px); }
+@media (min-width: 1024px) {
+  .heroInner { flex-direction: row; align-items: center; }
+  .heroCopy { flex: 1 1 0; min-width: 0; }
+  .heroArt { flex: 0 0 clamp(400px, 42%, 540px); }
+}
+.heroCopy { display: flex; flex-direction: column; gap: 20px; max-width: 660px; }
+.heroLine { color: var(--t1); }
+.heroAccent { color: var(--brand); }
+.heroSub { max-width: 520px; font-weight: 500; }
+.heroSearch { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+.samples { display: flex; flex-wrap: wrap; gap: 8px; }
+.samples > li { display: flex; }
+.sample {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font: var(--f-caption);
+  font-weight: 600;
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.sample:hover { box-shadow: inset 0 0 0 1px var(--brand-line); background: var(--brand-soft); transform: translateY(-1px); }
+.heroLens { margin-top: 2px; }
+.heroApp { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+
+/* 휴대폰 + 떠 있는 타일 · 위젯 */
+.heroArt { position: relative; display: flex; justify-content: center; align-items: center; min-height: 560px; }
+.phoneLink { position: relative; z-index: 1; display: flex; border-radius: 44px; transition: transform var(--t-med) var(--ease); }
+.phoneLink:hover { transform: translateY(-4px) rotate(-0.6deg); }
+.float { position: absolute; display: flex; border-radius: var(--r-card); box-shadow: var(--shadow-lift); animation: bob 7s ease-in-out infinite; }
+.f1 { top: 6%; left: 2%; }
+.f2 { top: 2%; right: 12%; animation-delay: -2s; }
+.f3 { bottom: 10%; left: -2%; animation-delay: -4s; }
+.f4 { bottom: 4%; right: 6%; animation-delay: -1s; }
+.f5 { top: 44%; right: -2%; animation-delay: -3s; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.widget {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 220px;
+  padding: 14px 16px;
+  border-radius: var(--r-tile);
+  background: color-mix(in srgb, var(--raised) 92%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--line);
+}
+.w1 { top: 18%; left: -4%; }
+.w2 { bottom: 16%; right: -4%; flex-direction: row; align-items: center; gap: 8px; }
+@media (max-width: 1023px) {
+  .heroArt { min-height: 520px; }
+  .w1 { left: 0; }
+  .w2 { right: 0; }
+}
+@media (max-width: 599px) {
+  .heroArt { min-height: 480px; transform: scale(0.9); }
+  .f5, .f2 { display: none; }
+}
+
+/* ── 띠 공통 ───────────────────────────────────────────── */
+.band { display: flex; padding: var(--s-band) 0; }
+.band > :global(.container) { display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px); }
+.bandTint { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.head { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+
+/* 세 가지 */
+.axesGrid { display: flex; flex-wrap: wrap; gap: 20px; }
+.axisCol {
+  flex: 1 1 280px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--s-card);
+  border-radius: var(--r-card);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
+}
+.axisCol:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+.axisArt { display: flex; align-items: center; justify-content: center; height: 150px; margin-bottom: 8px; border-radius: var(--r-tile); background: var(--surface); }
+.axisName { display: flex; align-items: center; gap: 6px; }
+.axisSrc { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); }
+.artScale { display: flex; flex-direction: column; gap: 8px; width: 70%; }
+.artScaleRow { display: flex; align-items: center; gap: 10px; }
+.artScaleBar { display: block; height: 10px; border-radius: var(--r-pill); }
+.artSvg { width: 70%; height: auto; color: var(--t2); }
+.artChips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 0 16px; }
+.artChip { display: flex; align-items: center; height: 28px; padding: 0 10px; border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--surface); }
+
+/* 둘러보기 */
+.exploreGrid { display: flex; flex-wrap: wrap; gap: 16px; }
+.exploreGrid > * { flex: 1 1 260px; min-width: 0; }
+.coll { gap: 10px; padding: var(--s-card); }
+.collIcon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 14px; background: var(--brand-soft); color: var(--brand-ink); }
+.collGo { display: flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 8px; font: var(--f-caption); font-weight: 600; color: var(--brand-ink); }
+.today {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--s-card);
+  border-radius: var(--r-card);
+  background: var(--ink);
+  color: #f2f2f0;
+  --t2: rgba(242, 242, 240, 0.72);
+}
+.todayTag { display: flex; align-items: center; gap: 6px; }
+
+/* 읽는 법 — 반전 면 */
+.howBand { background: var(--ink); }
+.steps { display: flex; flex-wrap: wrap; gap: 20px; }
+.step {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--s-card);
+  border-radius: var(--r-card);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  transition: background-color var(--t-med) var(--ease);
+}
+.step:hover { background: rgba(255, 255, 255, 0.07); }
+.stepArt { display: flex; justify-content: center; height: 130px; margin-bottom: 6px; }
+.stepSvg { width: auto; height: 100%; color: var(--t2); }
+.stepNo { color: var(--brand-ink); font-family: var(--font-num); }
+.promises { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+.promises > li { display: flex; align-items: center; gap: 8px; }
+
+/* 앱 받기 — 그린 면 */
+.dlBand {
+  display: flex;
+  padding: var(--s-band) 0;
+  background: var(--brand);
+  color: var(--on-brand);
+  --t1: var(--on-brand);
+  --t2: color-mix(in srgb, var(--on-brand) 80%, transparent);
+}
+.dl { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 40px; }
+.dlCopy { flex: 1 1 360px; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+.dlBody { color: var(--t2); }
+.dlArt { flex: 0 1 320px; display: flex; justify-content: center; color: var(--on-brand); }
+.scanSvg { width: 100%; max-width: 280px; height: auto; }

@@ -1,0 +1,96 @@
+/* 성분 사전 찾기(2026-11-14 개편) — 검색 알약 · 결과 목록 카드 · 자주 묻는 성분 묶음 카드. 전부 flex. */
+.wrap { display: flex; flex-direction: column; gap: var(--s-section); }
+
+/* 검색 알약 — components/SearchBox 의 lg 와 같은 모양 · 같은 초점 고리 */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  padding: 0 10px 0 22px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--t3);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow);
+  cursor: text;
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.search:hover { box-shadow: inset 0 0 0 1px var(--line-strong), var(--shadow); }
+.search:focus-within { box-shadow: inset 0 0 0 1.5px var(--brand), 0 0 0 4px color-mix(in srgb, var(--brand) 14%, transparent); }
+.searchIcon { flex: none; }
+.search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--t1);
+  font: var(--f-headline);
+  font-weight: 500;
+}
+.search input::placeholder { color: var(--t3); }
+.clear {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--t3);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.clear:hover { background: var(--hover); color: var(--t1); }
+@media (max-width: 759px) {
+  .search { height: 58px; padding: 0 8px 0 18px; }
+  .search input { font: var(--f-strong); font-weight: 500; }
+}
+
+/* 아래 칸 — 결과든 묶음이든 같은 높이를 미리 잡는다 */
+.body { display: flex; flex-direction: column; min-height: 520px; }
+
+/* 결과 */
+.results { display: flex; flex-direction: column; gap: 12px; }
+.hitIcon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: var(--sunken);
+  color: var(--t3);
+}
+.hitTag { margin-left: 10px; font-weight: 500; }
+
+.none { flex-direction: row; align-items: center; gap: 16px; padding: var(--s-card); }
+.noneIcon {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--sunken);
+  color: var(--t3);
+}
+.noneText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+/* 자주 묻는 성분 — 넓으면 두 장씩 */
+.groups { display: flex; flex-wrap: wrap; gap: 16px; align-content: flex-start; }
+.group {
+  flex: 1 1 300px;
+  min-width: 0;
+  gap: 16px;
+  padding: var(--s-card);
+}
+.groupTitle { display: flex; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { height: 40px; padding: 0 16px; font-size: 0.9375rem; }
+.chip:hover { transform: translateY(-1px); }
+
+/* 피할 성분에 넣기 — 글이 바뀌어도 단추 폭이 그대로(가장 긴 글 기준) */
+.avoidBtn { min-width: 15em; }
+.avoidHidden { visibility: hidden; }

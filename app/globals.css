@@ -1,0 +1,404 @@
+/* =========================================================================
+   What's In? — 웹 디자인 시스템 v4 (2026-11-14 전면 개편 · 사용자 gnemek20)
+   정본: docs/design/DESIGN_RULES.md §v4. 앱은 이 웹 디자인을 그대로 가져간다.
+
+   핵심 — 직관 · 누구나 · 한눈에. 여유롭게 채운다(빽빽하지 않게). 반응형(모바일 · 태블릿 · PC · 넓은 화면).
+   규칙
+     ① 자식이 있는 부모는 display: flex(grid 대신). 글줄 안의 굵은 글씨 같은 인라인 흐름만 예외.
+     ② 레이아웃 밀림 금지 — 스크롤이 생길 곳은 scrollbar-gutter: stable · 켜고 끄는 것은 visibility ·
+        바뀌는 값은 고정 칸(min-width · min-height · tabular-nums) · 나중에 오는 것은 큰 쪽 크기로 자리를 잡는다 ·
+        떠 있는 것(창 · 드롭다운)은 position 으로 띄운다.
+     ③ 눌리는 것은 전부 hover 가 있다(색 · 바탕 · 살짝 들림 중 하나 이상). 움직임은 짧고 절제(160~240ms).
+   색 — 바탕은 애시(푸른 기 없는 회색), 강조는 퍼스널 컬러 주황 하나(2026-11-14 사용자). 의미 색은 따로 — 초록(--ok) 「없음 · 좋은 사실」, 빨강(--hit) 「피할 성분 들어 있음」.
+   다크 — 애시 · 차콜.
+   ========================================================================= */
+
+:root {
+  color-scheme: light;
+
+  /* ── 색 · 라이트(애시) ─────────────────────────────── */
+  --bg: #f4f4f2;
+  --surface: #ffffff;
+  --raised: #ffffff;
+  --sunken: #ececea;
+  --line: #e2e2de;
+  --line-strong: #cacac5;
+  --hover: #f0f0ed;
+  --t1: #151515;
+  --t2: #57575a;
+  --t3: #8c8c88;
+
+  --brand: #ee6a35;          /* 퍼스널 컬러 주황(2026-11-14 사용자) — 버튼 · 선택 · 내 기준 · 로고 */
+  --brand-ink: #c9501c;      /* 글자로 쓸 때(흰 바탕 대비) */
+  --brand-soft: #fdeee5;
+  --brand-line: #f6c7ad;
+  --on-brand: #ffffff;
+
+  --ok: #1f9468;             /* 좋은 사실(피할 성분 없음) — 주황이 「주의」로 읽히지 않게 의미 색을 나눈다 */
+  --ok-ink: #11704c;
+  --ok-soft: #e3f3eb;
+
+  --hit: #c8302f;            /* 피할 성분 들어 있음 */
+  --hit-soft: #fcecea;
+  --hit-line: #f2c3bf;
+  --warn: #9a6a12;           /* 들어 있으나 함량 미표시 · 확인 못 함 */
+  --warn-soft: #faf1dc;
+
+  --ink: #1b1b1b;            /* 반전 면(앱 안내 띠 · 앱스토어 버튼) */
+  --on-ink: #f4f4f2;
+  --on-ink-text: #f4f4f2;
+
+  /* 세 축 칸 1~4 (자세한 평가에만) */
+  --band-1: #1f9468; --band-1-t: #11704c;
+  --band-2: #b9952b; --band-2-t: #7d6213;
+  --band-3: #d0782f; --band-3-t: #9a4f17;
+  --band-4: #d24a3c; --band-4-t: #a53125;
+
+  /* 식품 타일 — 종류를 알아보는 옅은 색. 사진이 없을 때만 바탕이 된다 */
+  --tile-snack-bg: #f6ecdc;   --tile-snack-ink: #a7672a;
+  --tile-drink-bg: #e3eef3;   --tile-drink-ink: #3a7290;
+  --tile-noodle-bg: #f3ecd8;  --tile-noodle-ink: #8f722b;
+  --tile-dairy-bg: #e9eaf4;   --tile-dairy-ink: #59609a;
+  --tile-bakery-bg: #f1e6dc;  --tile-bakery-ink: #8d6040;
+  --tile-protein-bg: #f4e4de; --tile-protein-ink: #95574a;
+  --tile-sauce-bg: #eee6f0;   --tile-sauce-ink: #765884;
+  --tile-other-bg: #ebebe8;   --tile-other-ink: #6f6f6a;
+
+  --shadow-sm: 0 1px 2px rgba(20, 20, 18, 0.05);
+  --shadow: 0 1px 2px rgba(20, 20, 18, 0.04), 0 6px 20px -10px rgba(20, 20, 18, 0.12);
+  --shadow-md: var(--shadow);
+  --shadow-lift: 0 2px 6px rgba(20, 20, 18, 0.05), 0 18px 40px -18px rgba(20, 20, 18, 0.22);
+  --shadow-lg: 0 4px 10px rgba(20, 20, 18, 0.06), 0 32px 72px -28px rgba(20, 20, 18, 0.32);
+
+  /* ── 글꼴 — 한글 Pretendard · 숫자와 영문 Geist ──────── */
+  --font-body: var(--font-geist), var(--font-pretendard), -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', system-ui, sans-serif;
+  --font-display: var(--font-body);
+  --font-num: var(--font-geist), var(--font-pretendard), system-ui, sans-serif;
+
+  /* 글자 단계 — rem + clamp(브라우저 글자 크기 · 화면 폭을 따른다) */
+  --f-hero: 700 clamp(2.125rem, 1.55rem + 2.6vw, 4.25rem) / 1.12 var(--font-body);
+  --f-display: 700 clamp(1.75rem, 1.4rem + 1.5vw, 2.75rem) / 1.18 var(--font-body);
+  --f-title: 700 clamp(1.3125rem, 1.15rem + 0.65vw, 1.75rem) / 1.3 var(--font-body);
+  --f-headline: 650 clamp(1.0625rem, 1rem + 0.3vw, 1.25rem) / 1.4 var(--font-body);
+  --f-strong: 600 clamp(0.9375rem, 0.91rem + 0.12vw, 1rem) / 1.5 var(--font-body);
+  --f-body: 400 clamp(0.9375rem, 0.91rem + 0.12vw, 1rem) / 1.62 var(--font-body);
+  --f-caption: 500 clamp(0.8125rem, 0.8rem + 0.06vw, 0.875rem) / 1.5 var(--font-body);
+  --f-micro: 600 0.75rem / 1.35 var(--font-body);
+  --f-num-xl: 700 clamp(2.5rem, 1.9rem + 2.4vw, 3.75rem) / 1 var(--font-num);
+  --f-num-lg: 700 clamp(1.75rem, 1.45rem + 1.1vw, 2.375rem) / 1.05 var(--font-num);
+
+  /* 예전 이름(2026-11-13 화면)이 그대로 따라오게 */
+  --fs-11: 0.6875rem; --fs-12: 0.75rem; --fs-13: 0.8125rem; --fs-14: 0.875rem; --fs-15: 0.9375rem;
+  --fs-17: 1.0625rem; --fs-20: 1.25rem; --fs-26: 1.625rem; --fs-36: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+
+  /* ── 간격 — 4 pt 격자, 넓은 화면에서 넉넉하게 ───────── */
+  --s-hair: 4px;
+  --s-tight: 8px;
+  --s-stack: 12px;
+  --s-row: 16px;
+  --s-inner: 20px;
+  --s-card: clamp(20px, 1.2vw + 14px, 32px);
+  --s-section: clamp(28px, 1.6vw + 20px, 44px);
+  --s-head: 16px;
+  --s-group: clamp(44px, 2.4vw + 24px, 72px);
+  --s-band: clamp(72px, 8vw, 140px);
+  --gutter: clamp(16px, 4.2vw, 72px);
+  --max: 1240px;
+  --read: 760px;
+  --side: clamp(300px, 24vw, 360px);
+  --nav-h: 64px;
+  --header-h: var(--nav-h);
+  --tabbar-h: 84px;   /* 떠 있는 탭 캡슐(60) + 아래 여백 — 본문 끝이 가리지 않게 */
+
+  /* ── 모서리 ───────────────────────────────────────── */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-tile: 16px;
+  --r-card: 24px;
+  --r-lg: var(--r-card);
+  --r-xl: 32px;
+  --r-button: 999px;
+  --r-pill: 999px;
+
+  --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* 튀는 움직임(수집 화면 도장 · 동전) */
+  --t-fast: 160ms;
+  --t-med: 240ms;
+
+  /* 예전 띠 이름 — 새 시스템에서는 면 하나로 접는다 */
+  --band-tint: var(--sunken);
+  --band-warm: var(--brand-soft);
+  --band-ink: var(--ink);
+  --band-orange: var(--brand);
+}
+
+/* 다크 — 애시 · 차콜(푸른 기 없음). 기기 설정을 따르고, 헤더의 테마 단추가 <html data-theme> 로 고정한다. 같은 값을 두 번 적는다. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #181818; --surface: #222222; --raised: #2a2a2a; --sunken: #131313;
+    --line: #2f2f2f; --line-strong: #444444; --hover: #2b2b2b;
+    --t1: #ededeb; --t2: #a9a9a6; --t3: #7b7b78;
+    --brand: #e8682f; --brand-ink: #ff9d6e; --brand-soft: rgba(238, 106, 53, 0.13); --brand-line: rgba(238, 106, 53, 0.4); --on-brand: #ffffff;
+    --ok: #3fb985; --ok-ink: #6ad3a3; --ok-soft: rgba(63, 185, 133, 0.12);
+    --hit: #ee5450; --hit-soft: rgba(238, 84, 80, 0.14); --hit-line: rgba(238, 84, 80, 0.4);
+    --warn: #e0b153; --warn-soft: rgba(224, 177, 83, 0.13);
+    --ink: #0f0f0f; --on-ink: #ededeb; --on-ink-text: #181818;
+    --band-1: #3fb985; --band-1-t: #6ad3a3;
+    --band-2: #c9ab55; --band-2-t: #dcc684;
+    --band-3: #d8955c; --band-3-t: #e8b488;
+    --band-4: #dd6f63; --band-4-t: #f09a90;
+    --tile-snack-bg: #2c2722;   --tile-snack-ink: #e5c39c;
+    --tile-drink-bg: #232a2d;   --tile-drink-ink: #a9cbdc;
+    --tile-noodle-bg: #2b2820;  --tile-noodle-ink: #ddc78f;
+    --tile-dairy-bg: #26272e;   --tile-dairy-ink: #b7bbe3;
+    --tile-bakery-bg: #2c2622;  --tile-bakery-ink: #ddbb9f;
+    --tile-protein-bg: #2d2422; --tile-protein-ink: #e3b1a5;
+    --tile-sauce-bg: #2a242c;   --tile-sauce-ink: #d4b6dd;
+    --tile-other-bg: #262626;   --tile-other-ink: #bcbcb8;
+    --shadow-sm: none;
+    --shadow: 0 0 0 1px rgba(255, 255, 255, 0.02);
+    --shadow-lift: 0 18px 40px -20px rgba(0, 0, 0, 0.75);
+    --shadow-lg: 0 32px 72px -24px rgba(0, 0, 0, 0.8);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #181818; --surface: #222222; --raised: #2a2a2a; --sunken: #131313;
+  --line: #2f2f2f; --line-strong: #444444; --hover: #2b2b2b;
+  --t1: #ededeb; --t2: #a9a9a6; --t3: #7b7b78;
+  --brand: #e8682f; --brand-ink: #ff9d6e; --brand-soft: rgba(238, 106, 53, 0.13); --brand-line: rgba(238, 106, 53, 0.4); --on-brand: #ffffff;
+    --ok: #3fb985; --ok-ink: #6ad3a3; --ok-soft: rgba(63, 185, 133, 0.12);
+  --hit: #ee5450; --hit-soft: rgba(238, 84, 80, 0.14); --hit-line: rgba(238, 84, 80, 0.4);
+  --warn: #e0b153; --warn-soft: rgba(224, 177, 83, 0.13);
+  --ink: #0f0f0f; --on-ink: #ededeb; --on-ink-text: #181818;
+  --band-1: #3fb985; --band-1-t: #6ad3a3;
+  --band-2: #c9ab55; --band-2-t: #dcc684;
+  --band-3: #d8955c; --band-3-t: #e8b488;
+  --band-4: #dd6f63; --band-4-t: #f09a90;
+  --tile-snack-bg: #2c2722;   --tile-snack-ink: #e5c39c;
+  --tile-drink-bg: #232a2d;   --tile-drink-ink: #a9cbdc;
+  --tile-noodle-bg: #2b2820;  --tile-noodle-ink: #ddc78f;
+  --tile-dairy-bg: #26272e;   --tile-dairy-ink: #b7bbe3;
+  --tile-bakery-bg: #2c2622;  --tile-bakery-ink: #ddbb9f;
+  --tile-protein-bg: #2d2422; --tile-protein-ink: #e3b1a5;
+  --tile-sauce-bg: #2a242c;   --tile-sauce-ink: #d4b6dd;
+  --tile-other-bg: #262626;   --tile-other-ink: #bcbcb8;
+  --shadow-sm: none;
+  --shadow: 0 0 0 1px rgba(255, 255, 255, 0.02);
+  --shadow-lift: 0 18px 40px -20px rgba(0, 0, 0, 0.75);
+  --shadow-lg: 0 32px 72px -24px rgba(0, 0, 0, 0.8);
+}
+:root[data-theme="light"] { color-scheme: light; }
+
+@media (min-width: 760px) {
+  :root { --nav-h: 72px; }
+}
+
+/* ── 베이스 ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;                      /* 규칙 ② — 스크롤 막대 자리를 늘 비워 둔다 */
+  scroll-padding-top: calc(var(--nav-h) + 20px);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--t1);
+  font: var(--f-body);
+  font-feature-settings: 'ss01' on;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--t-med) var(--ease), color var(--t-med) var(--ease);
+}
+body > main { flex: 1 0 auto; }
+
+h1, h2, h3, h4, p, ul, ol, figure, dl, dd, blockquote { margin: 0; }
+/* 읽기 좋은 줄바꿈(2026-11-14) — 낱말은 끊지 않고(body keep-all) 문단 끝에 한 낱말만 남지 않게, 제목은 줄 길이를 고르게 */
+p, dd, li, .rich-p { text-wrap: pretty; }
+h1, h2, h3, h4 { text-wrap: balance; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+svg { display: block; flex-shrink: 0; }
+
+/* 단추 · 입력칸 — 브라우저 기본 모양을 걷는다(:where = 우선순위 0 · 모듈 CSS 가 이긴다) */
+:where(button) { border: 0; background: none; padding: 0; margin: 0; color: inherit; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+:where(input, textarea, select) { font: inherit; color: inherit; }
+:where(a, button, [role="button"]) { -webkit-tap-highlight-color: transparent; }
+::selection { background: color-mix(in srgb, var(--brand) 24%, transparent); }
+
+/* 초점 — 키보드로 옮길 때만 고리를 보인다. 입력칸은 자기 테두리로 보인다 */
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 8px; }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: none; }
+
+/* ── 글자 ───────────────────────────────────────────────── */
+.t-hero { font: var(--f-hero); letter-spacing: -0.035em; }
+.t-display { font: var(--f-display); letter-spacing: -0.03em; }
+.t-title { font: var(--f-title); letter-spacing: -0.025em; }
+.t-headline { font: var(--f-headline); letter-spacing: -0.015em; }
+.t-strong { font: var(--f-strong); letter-spacing: -0.005em; }
+.t-body { font: var(--f-body); }
+.t-caption { font: var(--f-caption); }
+.t-micro { font: var(--f-micro); letter-spacing: 0.01em; }
+.t-num-xl { font: var(--f-num-xl); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.t-num-lg { font: var(--f-num-lg); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.c-t1 { color: var(--t1); }
+.c-t2 { color: var(--t2); }
+.c-t3 { color: var(--t3); }
+.c-brand { color: var(--brand-ink); }
+.c-hit { color: var(--hit); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* 예전 이름 — 같은 단계로 */
+.eyebrow { font: var(--f-micro); color: var(--t3); letter-spacing: 0.04em; }
+.h1 { font: var(--f-display); letter-spacing: -0.03em; }
+.h2 { font: var(--f-title); letter-spacing: -0.025em; }
+.h3 { font: var(--f-headline); letter-spacing: -0.015em; }
+.body { font: var(--f-body); }
+.small { font: var(--f-caption); }
+.tiny { font: var(--f-micro); font-weight: 500; }
+.muted { color: var(--t2); }
+.faint { color: var(--t3); }
+.strong { font-weight: 600; }
+
+.sr-only, .visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ── 골조 ───────────────────────────────────────────────── */
+.container, .wrap {
+  width: 100%;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.read { width: 100%; max-width: calc(var(--read) + var(--gutter) * 2); margin: 0 auto; padding: 0 var(--gutter); }
+.page { display: flex; flex-direction: column; gap: var(--s-group); padding-top: var(--s-section); padding-bottom: var(--s-band); min-height: 60vh; }
+
+/* 두 단 — 모바일 한 단, PC(1024~) 본문 + 옆 단(flex). 옆 단은 머리 아래 붙어 따라온다 */
+.layout { display: flex; flex-direction: column; gap: var(--s-group); align-items: stretch; }
+.layout > * { min-width: 0; }
+.layout-main, .layout-side, .stack-group { display: flex; flex-direction: column; gap: var(--s-group); min-width: 0; }
+@media (min-width: 1024px) {
+  .layout { flex-direction: row; align-items: flex-start; gap: clamp(40px, 4vw, 72px); }
+  .layout-main { flex: 1 1 0; }
+  .layout-side { flex: 0 0 var(--side); position: sticky; top: calc(var(--nav-h) + 24px); }
+  .layout.side-left .layout-side { order: -1; }
+}
+.pc-only { display: none !important; }
+@media (min-width: 1024px) {
+  .pc-only { display: flex !important; }
+  .m-only { display: none !important; }
+}
+
+/* 면 */
+.card, .panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+}
+
+/* 예전 「시트 · 띠」 — 겹쳐 올라오던 면은 걷었다. 이름만 남겨 바탕을 정한다 */
+.sheet { position: relative; }
+.sheet-paper { background: var(--bg); }
+.sheet-last { padding-bottom: var(--s-band); }
+.band-tint { background: var(--sunken); }
+.band-warm { background: var(--brand-soft); }
+.band-orange { background: var(--brand); --t1: var(--on-brand); --t2: color-mix(in srgb, var(--on-brand) 82%, transparent); --t3: color-mix(in srgb, var(--on-brand) 64%, transparent); color: var(--t1); }
+.band-ink {
+  background: var(--ink);
+  color-scheme: dark;
+  --bg: var(--ink); --surface: #222222; --raised: #2a2a2a; --sunken: #141414;
+  --line: rgba(255, 255, 255, 0.09); --line-strong: rgba(255, 255, 255, 0.2); --hover: #2a2a2a;
+  --t1: #f2f2f0; --t2: rgba(242, 242, 240, 0.72); --t3: rgba(242, 242, 240, 0.48);
+  --brand: #e8682f; --brand-ink: #ffa47a; --brand-soft: rgba(238, 106, 53, 0.16); --on-brand: #ffffff;
+  --shadow: none;
+  color: var(--t1);
+}
+
+/* ── 단추 ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 46px; padding: 0 22px; border-radius: var(--r-button); border: 0;
+  font: var(--f-strong); white-space: nowrap; cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: var(--brand); color: var(--on-brand); box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--brand) 70%, transparent); }
+.btn-primary:hover:not(:disabled) { background: var(--brand-ink); box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--brand) 80%, transparent); }
+.btn-ink { background: var(--t1); color: var(--bg); }
+.btn-ink:hover:not(:disabled) { background: color-mix(in srgb, var(--t1) 86%, var(--bg)); }
+.btn-ghost { background: var(--surface); color: var(--t1); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.btn-ghost:hover:not(:disabled) { background: var(--hover); box-shadow: inset 0 0 0 1px var(--t3); }
+.btn-quiet { background: none; color: var(--t2); }
+.btn-quiet:hover:not(:disabled) { color: var(--t1); background: var(--hover); }
+.btn-sm { height: 36px; padding: 0 14px; font: var(--f-caption); font-weight: 600; }
+.btn-lg { height: 54px; padding: 0 28px; font-size: 1.0625rem; }
+.btn-block { width: 100%; }
+
+/* 칩 — 고를 수 있는 것은 hover 로 테두리가 짙어진다 */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 36px; padding: 0 14px; border-radius: var(--r-pill);
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border: 0;
+  font: var(--f-caption); font-weight: 600; color: var(--t2); white-space: nowrap;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+button.chip, a.chip, label.chip { cursor: pointer; }
+button.chip:hover, a.chip:hover, label.chip:hover { color: var(--t1); box-shadow: inset 0 0 0 1px var(--line-strong); background: var(--hover); }
+.chip[aria-pressed='true'], .chip.on { background: var(--t1); color: var(--bg); box-shadow: none; }
+.chip[aria-pressed='true']:hover, .chip.on:hover { background: color-mix(in srgb, var(--t1) 86%, var(--bg)); color: var(--bg); }
+.chip-mine { background: var(--brand-soft); color: var(--brand-ink); box-shadow: none; }
+.chip-hit { background: var(--hit-soft); color: var(--hit); box-shadow: inset 0 0 0 1px var(--hit-line); }
+
+/* 들림 — 카드처럼 통째로 눌리는 것 */
+.lift { transition: transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease), background-color var(--t-med) var(--ease); }
+.lift:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--line-strong); }
+
+/* 스크롤 상자 — 막대 자리를 미리 잡는다 */
+.scroll-y { overflow-y: auto; scrollbar-gutter: stable; overscroll-behavior: contain; }
+
+/* 스크롤 등장 — JS 가 켜졌을 때만 숨긴다(자리는 그대로 · 투명도와 살짝 이동만) */
+.js-reveal [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity 420ms var(--ease), transform 420ms var(--ease); }
+.js-reveal [data-reveal].is-in { opacity: 1; transform: none; }
+.js-reveal [data-reveal].lift { transition: opacity 420ms var(--ease), transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease); }
+
+/* 불러오는 중 자리 — 반복 애니메이션 없음 */
+.skel { background: var(--sunken); border-radius: var(--r-tile); }
+.skel-page { display: flex; flex-direction: column; gap: var(--s-section); padding-top: var(--s-section); padding-bottom: var(--s-band); }
+.skel-row { display: flex; gap: var(--s-stack); align-items: center; }
+
+.offscreen { content-visibility: auto; contain-intrinsic-size: auto 720px; }
+
+/* 모바일 아래 탭 막대 자리는 탭 막대가 직접 잡는다(shell/TabBar 의 tabSpacer) — 탭 막대가 없는 화면(/collect)에 빈자리가 생기지 않게 */
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal] { opacity: 1; transform: none; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* 서식 글자(components/Rich) */
+.rich-math .katex { font-size: 1em; color: inherit; }
+.rich-p, .rich-li { display: block; }
+.rich-p:empty { display: none; }
+.rich-p + .rich-p, .rich-li + .rich-p, .rich-p + .rich-li { margin-top: 0.45em; }
+.rich-li + .rich-li { margin-top: 0.2em; }
+.rich-li { display: flex; gap: 0.45em; }
+.rich-math .katex, .rich-math .katex * { font-family: inherit !important; }

@@ -1,0 +1,35 @@
+/* 바닥글(2026-11-14) — 바탕보다 한 단 낮은 면. 위: 소개 | 메뉴 묶음 / 아래: 출처 · 저작권 */
+.foot {
+  display: flex;
+  margin-top: var(--s-band);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 4vw, 64px);
+  padding-top: clamp(48px, 5vw, 80px);
+  padding-bottom: clamp(32px, 3vw, 48px);
+}
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; }
+.brand { flex: 1 1 280px; max-width: 420px; display: flex; flex-direction: column; gap: 14px; }
+.cols { display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 88px); }
+.col { display: flex; flex-direction: column; gap: 10px; min-width: 120px; }
+.colHead { font: var(--f-micro); color: var(--t3); letter-spacing: 0.04em; margin-bottom: 4px; }
+.link {
+  align-self: flex-start;
+  font: var(--f-body);
+  color: var(--t2);
+  border-radius: 6px;
+  transition: color var(--t-fast) var(--ease);
+}
+.link:hover { color: var(--brand-ink); }
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}

@@ -1,0 +1,144 @@
+/* 검색창(2026-11-14 개편) — 알약 한 줄 flex. 크기 셋(lg 첫 화면 · md 검색 화면 · sm 머리).
+   진행 표시 · 지우기 칸은 늘 자리를 둔다(입력칸 폭 고정). 미리보기 목록은 아래로 떠서 본문을 밀지 않는다. */
+.form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-sm);
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.form:hover { box-shadow: inset 0 0 0 1px var(--line-strong), var(--shadow-sm); }
+.form:focus-within { box-shadow: inset 0 0 0 1.5px var(--brand), 0 0 0 4px color-mix(in srgb, var(--brand) 14%, transparent); }
+
+.icon { color: var(--t3); flex: none; }
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--t1);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.input::placeholder { color: var(--t3); }
+.input::-webkit-search-cancel-button { display: none; }
+
+.spin {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--brand);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.clear {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--t3);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.clear:hover { background: var(--hover); color: var(--t1); }
+
+.submit {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  color: var(--on-brand);
+  font: var(--f-strong);
+  white-space: nowrap;
+  min-width: 64px;
+  transition: background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.submit:hover { background: var(--brand-ink); }
+.submit:active { transform: scale(0.97); }
+.submit[aria-busy='true'] { opacity: 0.8; }
+
+/* 크기 */
+.sm { height: 44px; padding: 0 4px 0 16px; }
+.sm .icon { width: 18px; height: 18px; }
+.sm .input { font: var(--f-caption); font-size: 0.9375rem; }
+.sm .submit { height: 36px; padding: 0 14px; font: var(--f-caption); font-weight: 600; min-width: 56px; }
+
+.md { height: 56px; padding: 0 6px 0 20px; }
+.md .input { font: var(--f-strong); font-weight: 500; }
+.md .submit { height: 44px; padding: 0 20px; }
+
+.lg { height: 68px; padding: 0 8px 0 24px; gap: 8px; box-shadow: inset 0 0 0 1px var(--line), var(--shadow); }
+.lg .icon { width: 22px; height: 22px; }
+.lg .input { font: var(--f-headline); font-weight: 500; }
+.lg .submit { height: 52px; padding: 0 26px; font-size: 1.0625rem; }
+@media (max-width: 759px) {
+  .lg { height: 60px; padding: 0 6px 0 18px; }
+  .lg .input { font: var(--f-strong); font-weight: 500; }
+  .lg .submit { height: 46px; padding: 0 18px; }
+}
+
+/* 미리보기 — 아래로 떠서 연다 */
+.list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  max-height: min(520px, 70vh);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  background: var(--raised);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--line);
+  animation: drop var(--t-fast) var(--ease);
+}
+@keyframes drop { from { opacity: 0; transform: translateY(-4px); } }
+.list > li { display: flex; flex-direction: column; }
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--r-md);
+  transition: background-color var(--t-fast) var(--ease);
+}
+.opt:hover, .optOn { background: var(--hover); }
+.optText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.optName { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.optAll {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 12px 12px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 var(--r-md) var(--r-md);
+  color: var(--brand-ink);
+  font-weight: 600;
+  transition: background-color var(--t-fast) var(--ease);
+}
+.optAll:hover { background: var(--brand-soft); }
+
+.withList { z-index: 51; }

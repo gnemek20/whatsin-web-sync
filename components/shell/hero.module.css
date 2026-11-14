@@ -1,0 +1,32 @@
+/* 페이지 머리(2026-11-14 디자인 v4) — 전부 flex. 바탕은 애시 위 옅은 빛 한 점(검색 첫 면 .hero 와 같은 결). */
+.hero {
+  --hero-glow: color-mix(in srgb, var(--brand) 8%, transparent);
+  display: flex;
+  padding: clamp(40px, 5.5vw, 88px) 0 clamp(28px, 3.2vw, 48px);
+  background:
+    radial-gradient(60% 90% at 100% 0%, var(--hero-glow), transparent 70%),
+    var(--bg);
+}
+.brand { --hero-glow: color-mix(in srgb, var(--brand) 14%, transparent); }
+.warm { --hero-glow: color-mix(in srgb, var(--brand) 9%, transparent); }
+.tint { --hero-glow: color-mix(in srgb, var(--brand) 6%, transparent); }
+.ink { --hero-glow: color-mix(in srgb, var(--t1) 6%, transparent); }
+
+.inner { display: flex; flex-direction: column; gap: var(--s-card); }
+.head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 20px var(--s-card); }
+.text { flex: 1 1 420px; display: flex; flex-direction: column; gap: 12px; min-width: 0; max-width: 720px; }
+.eyebrow { color: var(--brand-ink); }
+.title { color: var(--t1); }
+.sub { color: var(--t2); max-width: 560px; }
+.action { flex: none; display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* 본문 칸 */
+.sheet { display: flex; padding-bottom: var(--s-band); }
+.sheetInner { display: flex; flex-direction: column; }
+.narrow { max-width: calc(var(--read) + var(--gutter) * 2); }
+
+@media (max-width: 599px) {
+  .text { flex-basis: 100%; }
+  .action { flex: 1 1 100%; }
+  .action > :only-child { flex: 1; }
+}

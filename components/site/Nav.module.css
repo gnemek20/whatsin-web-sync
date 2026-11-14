@@ -1,0 +1,122 @@
+/* 사이트 머리(2026-11-14 개편) — flex 한 줄 · 반투명 바. 높이는 고정(--nav-h)이라 안의 것이 바뀌어도 본문이 밀리지 않는다. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  backdrop-filter: saturate(1.5) blur(16px);
+  -webkit-backdrop-filter: saturate(1.5) blur(16px);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 28px);
+  height: var(--nav-h);
+  max-width: calc(1440px + var(--gutter) * 2);
+}
+
+.brand {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  border-radius: 12px;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.brand:hover { opacity: 0.78; }
+
+.wordmark { display: flex; align-items: center; gap: 10px; }
+.wordText {
+  font: 700 1.1875rem / 1 var(--font-num);
+  letter-spacing: -0.035em;
+  color: var(--t1);
+  white-space: nowrap;
+}
+
+.menu { flex: none; display: flex; align-items: center; gap: 2px; }
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  font: var(--f-strong);
+  color: var(--t2);
+  white-space: nowrap;
+  transition: color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.link:hover { color: var(--t1); background: var(--hover); }
+.link[aria-current='page'] { color: var(--t1); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+
+.search {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  transition: opacity var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+}
+.search > * { flex: 1; min-width: 0; }
+.searchInline, .searchFloat { opacity: 1; }
+/* 큰 검색창이 보이는 동안 — 자리는 두고 숨긴다 */
+.searchAway { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+
+.actions { flex: none; display: flex; align-items: center; gap: 8px; }
+
+.cta {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  background: var(--t1);
+  color: var(--bg);
+  font: var(--f-strong);
+  white-space: nowrap;
+  transition: background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.cta:hover { background: color-mix(in srgb, var(--t1) 84%, var(--bg)); transform: translateY(-1px); }
+
+.themeOne { display: none !important; }
+
+/* 태블릿 · 좁은 PC — 메뉴는 아이콘만, 테마는 한 칸 */
+@media (max-width: 1279px) {
+  .menu .link { padding: 0 11px; }
+  .menu :global(.navText) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .themeSeg { display: none !important; }
+  .themeOne { display: flex !important; }
+}
+
+/* 모바일 — 두 줄(로고 줄 + 검색 줄). 메뉴 · 앱 받기는 탭 막대로 */
+@media (max-width: 759px) {
+  .inner {
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 8px;
+    padding-top: 8px;
+    padding-bottom: 10px;
+  }
+  .menu, .cta { display: none; }
+  .brand { order: 1; }
+  .actions { order: 2; margin-left: auto; }
+  .search { order: 3; flex: 1 0 100%; max-width: none; }
+  .wordText { font-size: 1.0625rem; }
+  .searchFloat {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    padding: 0 var(--gutter) 10px;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: saturate(1.5) blur(16px);
+    -webkit-backdrop-filter: saturate(1.5) blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+  .searchAway { transform: translateY(-110%); opacity: 0; }
+}
