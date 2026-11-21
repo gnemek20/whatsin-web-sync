@@ -1,0 +1,31 @@
+/* 식품 타일 — 종류 색 바탕 + 그림, 사진이 오면 덮는다(사진이 늦거나 깨져도 크기는 그대로). */
+.tile {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t1) 5%, transparent);
+}
+.big { border-radius: var(--r-card); flex-direction: column; gap: 6%; }
+/* 분류 이름 — 그림 아래 한 줄(큰 칸 · 사진 없을 때) */
+.label { max-width: 88%; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: currentColor; }
+/* 이름을 쓰는 칸 — 부르는 쪽이 칸 크기를 CSS 로 바꿔도(검색 결과 카드 · 72%) 그림 · 글자가 칸에 맞춰 준다(넘쳐 잘리지 않게) */
+.named { container-type: size; }
+.named svg { width: 44cqmin; height: 44cqmin; flex: none; }
+.named .label { font-size: max(11px, 13cqmin) !important; }
+/* 작은 칸(목록 줄)의 이름 — 그림을 조금 줄이고 글자는 10px 까지 */
+.named { flex-direction: column; gap: 2px; }
+.namedSm svg { width: 48cqmin; height: 48cqmin; }
+.namedSm .label { font-size: max(10px, 17cqmin) !important; max-width: 94%; letter-spacing: -0.04em; }
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+  padding: 6%;
+}

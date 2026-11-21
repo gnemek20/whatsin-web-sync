@@ -1,0 +1,33 @@
+/* 화면 맨 위 줄 — 왼쪽 이전 · 오른쪽 그 화면의 행동(공유 등). 높이 고정. */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-stack);
+  min-height: 64px;
+  padding: 12px 0;
+}
+.actions { display: flex; align-items: center; gap: 8px; }
+
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px 0 12px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--t1);
+  font: var(--f-caption);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.pill:hover { background: var(--hover); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.pill:active { transform: scale(0.97); }
+.pill svg { flex: none; }

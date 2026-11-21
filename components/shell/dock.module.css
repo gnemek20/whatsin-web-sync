@@ -1,0 +1,17 @@
+/* 모바일 아래 검색창(DockSearch) — 첫 화면 .dock 과 같은 자리 · 모양. PC 에서는 없다(머리 검색을 쓴다). */
+.spacer, .dock { display: none; }
+@media (max-width: 759px) {
+  .spacer { display: block; flex: none; height: 76px; }
+  .dock {
+    position: fixed;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: calc(10px + 60px + 8px + env(safe-area-inset-bottom));
+    z-index: 31;
+    display: flex;
+    transition: transform 0.22s var(--ease), opacity 0.22s var(--ease);
+  }
+  .dock > * { flex: 1; min-width: 0; }
+  /* 스크롤하는 동안 — 탭 막대 뒤로 내려가 숨는다(transform 은 이때만 · 펼친 시트의 fixed 를 가두지 않게) */
+  .away { transform: translateY(calc(100% + 24px)); opacity: 0; pointer-events: none; }
+}

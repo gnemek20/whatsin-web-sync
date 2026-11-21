@@ -1,0 +1,4 @@
+/* 쿠팡에서 보기 — 비교 단추와 같은 높이 · 진한 단색(그라데이션 없음) · 아래 대가성 문구 한 줄 */
+.wrap { display: flex; flex-direction: column; gap: 6px; }
+.btn { gap: 6px; }
+.note { font: var(--f-micro); color: var(--t3); text-align: center; }

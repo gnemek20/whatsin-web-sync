@@ -1,0 +1,90 @@
+/* GridPeek — 3열 격자 칸 + 넘치면 팝 박스. 칩 나열 대신(2026-11-18). 전부 flex. 그라데이션 없음. */
+.grid { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.grid > * { flex: 0 0 calc((100% - 16px) / 3); }
+
+.cell {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 52px;
+  padding: 0 12px 0 10px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--t1);
+  text-align: left;
+}
+.icon {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: var(--sunken);
+  color: var(--t2);
+}
+.text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.title { font: var(--f-caption); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub { font: var(--f-micro); color: var(--t3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.long { font: var(--f-caption); color: var(--t2); line-height: 1.5; white-space: pre-line; }
+
+.ok .icon { background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok-ink); }
+.hit { box-shadow: inset 0 0 0 1.5px var(--hit); }
+.hit .icon { background: var(--hit); color: #fff; }
+.hit .sub { color: var(--hit); font-weight: 600; }
+.warn .icon { background: color-mix(in srgb, var(--band-2, var(--t3)) 18%, transparent); color: var(--band-2-t, var(--t1)); }
+
+.more { cursor: pointer; background: var(--sunken); box-shadow: none; transition: background-color var(--t-fast) var(--ease); }
+.more:hover { background: var(--hover); }
+.more:hover .moreChev { transform: translateX(2px); color: var(--t1); }
+.moreChev { flex: none; color: var(--t3); transition: transform var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+
+/* 팝 박스 — PC 가운데 카드 · 모바일 아래 시트 */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 20, 18, 0.32);
+  animation: fade 0.16s var(--ease);
+}
+.pop {
+  width: min(560px, 100%);
+  max-height: min(640px, calc(100dvh - 48px));
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  background: var(--bg);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+  animation: rise 0.2s var(--ease);
+}
+.popHead { flex: none; display: flex; align-items: center; gap: 8px; padding: 18px 14px 12px 22px; }
+.popTitle { font: var(--f-headline); letter-spacing: -0.02em; }
+.popN { font: var(--f-caption); color: var(--t3); font-family: var(--font-num); }
+.close { margin-left: auto; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--t2); }
+.close:hover { background: var(--hover); color: var(--t1); }
+.popBody { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding: 4px 18px 20px; overflow-y: auto; }
+.popBody > * { flex: 0 0 calc((100% - 8px) / 2); }
+.cellFull { height: auto; min-height: 56px; padding: 12px 14px 12px 12px; }
+.cellFull .title { white-space: normal; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes rise { from { transform: translateY(16px); opacity: 0.6; } }
+
+@media (max-width: 759px) {
+  .grid { gap: 6px; }
+  .grid > * { flex-basis: calc((100% - 12px) / 3); }
+  .cell { height: 48px; gap: 7px; padding: 0 8px; border-radius: 12px; }
+  .icon { width: 22px; height: 22px; border-radius: 7px; }
+  .scrim { align-items: flex-end; padding: 0; }
+  .pop { width: 100%; max-height: 80dvh; border-radius: 24px 24px 0 0; padding-bottom: env(safe-area-inset-bottom); }
+  .popBody > * { flex-basis: 100%; }
+  .cellFull { height: auto; padding: 12px 14px 12px 12px; gap: 10px; }   /* 위 .cell 의 좁은 칸 값이 팝 박스 칸을 덮지 않게 */
+  .cellFull .icon { width: 26px; height: 26px; border-radius: 9px; }
+}

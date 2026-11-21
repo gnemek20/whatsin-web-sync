@@ -1,0 +1,20 @@
+/* 조건으로 찾기 목록(/c · 2026-11-18) — 머리 + 기준별 묶음. 칸은 첫 화면 조건 카드(landing .asks · .ask) 그대로 */
+.main { padding-block: 40px 72px; display: flex; flex-direction: column; gap: 36px; }
+.head { display: flex; flex-direction: column; gap: 8px; }
+.title { font: var(--f-display); letter-spacing: -0.035em; }
+.lead { font: var(--f-body); color: var(--t2); }
+.group { display: flex; flex-direction: column; gap: 14px; }
+.groupHead { font: var(--f-title); letter-spacing: -0.03em; }
+/* PC 3열 · 태블릿 2열 · 모바일 1열(첫 화면은 4열이지만 여기는 묶음마다 2~12개라 3열이 빈칸이 적다) */
+@media (min-width: 1100px) { .asks > li { flex-basis: calc((100% - 24px) / 3) !important; flex-grow: 0 !important; } }
+
+@media (max-width: 759px) {
+  .main { padding-block: 24px 40px; gap: 28px; }
+  .title { font-size: 1.75rem; }
+  /* 모바일 — 두 칸으로 촘촘히(31칸이 한 줄씩이면 너무 길다) · 화살표 칸은 뺀다 */
+  .asks { gap: 8px !important; }
+  .asks > li { flex-basis: calc((100% - 8px) / 2) !important; flex-grow: 0 !important; }
+  .asks > li > a { gap: 10px; padding: 10px; }
+  .asks > li > a > span:first-child { width: 44px !important; height: 44px !important; }
+  .asks > li > a > span:last-child { display: none; }
+}

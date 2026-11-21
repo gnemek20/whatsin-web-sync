@@ -1,0 +1,161 @@
+/* 성분 사전 찾기(2026-11-14 개편) — 검색 알약 · 결과 목록 카드 · 자주 묻는 성분 묶음 카드. 전부 flex. */
+.wrap { display: flex; flex-direction: column; gap: var(--s-section); }
+
+/* 검색 알약 — components/SearchBox 의 lg 와 같은 모양 · 같은 초점 고리 */
+.search {
+  width: 100%;
+  max-width: 760px;   /* PC 1200 폭에서도 입력칸은 읽기 좋은 길이로(늘어난 한 줄은 어색하다 · 2026-11-17) */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  padding: 0 10px 0 22px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--t3);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow);
+  cursor: text;
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.search:hover { box-shadow: inset 0 0 0 1px var(--line-strong), var(--shadow); }
+.search:focus-within { box-shadow: inset 0 0 0 1.5px var(--brand), 0 0 0 4px color-mix(in srgb, var(--brand) 14%, transparent); }
+.searchIcon { flex: none; }
+.search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--t1);
+  font: var(--f-headline);
+  font-weight: 500;
+}
+.search input::placeholder { color: var(--t3); }
+.clear {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--t3);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.clear:hover { background: var(--hover); color: var(--t1); }
+/* 모바일 — 입력칸은 아래 엄지 자리(2026-11-18 · 기억 mobile-input-bottom). 다른 화면의 아래 검색창(DockSearch)과 같은 자리 · 같은 크기 */
+@media (max-width: 759px) {
+  .wrap { padding-bottom: 76px; }
+  .search {
+    position: fixed;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: calc(10px + 60px + 8px + env(safe-area-inset-bottom));
+    z-index: 31;
+    width: auto;
+    height: 56px;
+    padding: 0 6px 0 20px;
+    box-shadow: inset 0 0 0 1px var(--line), var(--shadow-lift);
+  }
+  .search:hover { box-shadow: inset 0 0 0 1px var(--line), var(--shadow-lift); }
+  .search:focus-within { box-shadow: inset 0 0 0 1.5px var(--brand), var(--shadow-lift); }
+  .search input { font: var(--f-strong); font-weight: 500; }
+}
+
+/* 아래 칸 — 결과든 묶음이든 같은 높이를 미리 잡는다 */
+.body { display: flex; flex-direction: column; }
+
+/* 결과 */
+.results { display: flex; flex-direction: column; gap: 12px; }
+.hitIcon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: var(--sunken);
+  color: var(--t3);
+}
+.hitTag { margin-left: 10px; font-weight: 500; }
+
+.none { flex-direction: row; align-items: center; gap: 16px; padding: var(--s-card); }
+.noneIcon {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--sunken);
+  color: var(--t3);
+}
+.noneText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+/* 자주 묻는 성분(2026-11-18) — 분류 전환 + 목록. 칩을 늘어놓지 않고, 성분마다 이름 · 역할 · 한 줄 설명.
+   전환은 성분 칸(IngredientChips)의 분류 전환과 같은 모양. 목록 칸은 가장 긴 분류(9개) 높이를 미리 잡아 분류를 바꿔도 아래가 출렁이지 않는다. */
+.groups { display: flex; flex-direction: column; gap: 16px; }
+.seg { display: flex; gap: 2px; padding: 3px; border-radius: 14px; background: var(--sunken); max-width: 560px; }
+.segBtn {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 8px;
+  border-radius: 11px;
+  color: var(--t2);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.segBtn:hover { color: var(--t1); background: color-mix(in srgb, var(--surface) 55%, transparent); }
+.segOn, .segOn:hover { background: var(--surface); color: var(--t1); box-shadow: var(--shadow-sm), 0 0 0 1px var(--line); }
+.segLabel { font: var(--f-caption); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.segN { flex: none; font: var(--f-micro); font-family: var(--font-num); color: var(--t3); }
+.segOn .segN { color: var(--brand-ink); }
+
+.items { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; }
+.items > li { flex: 0 1 100%; min-width: 0; display: flex; }
+@media (min-width: 760px) {
+  .items { min-height: calc(5 * 84px + 4 * 10px); }
+  .items > li { flex-basis: calc((100% - 10px) / 2); }
+}
+.item {
+  flex: 1;
+  min-width: 0;
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 18px;
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.item:hover { box-shadow: inset 0 0 0 1px var(--line-strong), var(--shadow-sm); }
+.item:hover .itemChev { color: var(--t1); transform: translateX(2px); }
+.itemHead { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.itemName { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.itemTag {
+  flex: none;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: var(--r-pill);
+  font: var(--f-micro);
+  font-weight: 600;
+  color: var(--tone, var(--t3));
+  background: color-mix(in srgb, var(--tone, var(--t3)) 11%, transparent);
+}
+.itemChev { flex: none; margin-left: auto; transition: transform var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+.itemPlain { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* 피할 성분에 넣기 — 글이 바뀌어도 단추 폭이 그대로(가장 긴 글 기준) */
+.avoidBtn { min-width: 15em; }
+.avoidHidden { visibility: hidden; }

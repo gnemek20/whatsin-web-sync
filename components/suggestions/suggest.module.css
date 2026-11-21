@@ -1,0 +1,163 @@
+/* 건의함(2026-11-19) — 읽기 폭 카드 한 장 + 보낸 건의 목록. 전부 flex/grid · 단색 · 가운데 점 없음.
+   종류는 칩 나열이 아니라 같은 폭 칸 격자(PC 4칸 · 모바일 2칸 · 기억 no-label-chip-rows). */
+.wrap { display: flex; flex-direction: column; gap: var(--s-group); }
+
+.form { display: flex; flex-direction: column; gap: 28px; padding: clamp(22px, 3vw, 36px); }
+.field { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.label { color: var(--t1); }
+.labelRow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+
+/* 종류 칸 */
+.kinds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.kind {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+  color: var(--t1);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.kind:hover { border-color: var(--line-strong); background: var(--hover); transform: translateY(-1px); }
+.kind:focus-visible { outline: 0; box-shadow: 0 0 0 4px var(--brand-soft); border-color: var(--brand); }
+.kindOn, .kindOn:hover { border-color: var(--brand); background: var(--brand-soft); transform: none; }
+.kindIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--sunken);
+  color: var(--t2);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.kindOn .kindIcon { background: var(--brand); color: var(--on-brand); }
+.kindText { display: flex; flex-direction: column; gap: 2px; min-width: 0; width: 100%; }
+.kindLabel { font: var(--f-strong); color: var(--t1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kindSub { font: var(--f-caption); color: var(--t3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kindOn .kindSub { color: var(--brand-ink); }
+/* 고른 칸의 표시 — 자리는 늘 두고 보이기만 바꾼다 */
+.kindCheck {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  color: var(--brand-ink);
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.kindOn .kindCheck { opacity: 1; }
+
+/* 종류마다 바뀌는 안내 — 자리를 늘 둔다(PC 한 줄 · 모바일 두 줄 · 종류를 바꿔도 아래가 밀리지 않게) · 가운데 맞춤 */
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: calc(1.5em + 28px);
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--sunken);
+  color: var(--t2);
+}
+.hint > svg { flex: none; color: var(--t3); }
+.hint > span { flex: 1; min-width: 0; }
+
+.input {
+  width: 100%;
+  min-height: 200px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--t1);
+  font: var(--f-body);
+  line-height: 1.7;
+  outline: 0;
+  resize: vertical;
+  scrollbar-gutter: stable;
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.input::placeholder { color: var(--t3); }
+.input:hover { border-color: var(--t3); }
+.input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-soft); }
+
+.foot { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+.result { flex: 1 1 auto; min-width: 0; margin: 0; }
+.resultOk { color: var(--ok-ink); }
+.resultBad { color: var(--hit); }
+.send { flex: none; min-width: 132px; }
+
+/* 보낸 건의 */
+.sent { display: flex; flex-direction: column; gap: 14px; }
+.sentHead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.sentEmpty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 112px;
+  padding: var(--s-card);
+}
+.sentEmpty a { color: var(--brand-ink); font-weight: 600; }
+.sentEmpty a:hover { text-decoration: underline; }
+.sentList { display: flex; flex-direction: column; overflow: hidden; }
+.sentRow { display: flex; flex-direction: column; gap: 8px; padding: 18px var(--s-card); }
+.sentRow + .sentRow { border-top: 1px solid var(--line); }
+.sentMeta { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.sentKind { font: var(--f-strong); color: var(--t1); white-space: nowrap; }
+.sentBody { margin: 0; color: var(--t2); white-space: pre-wrap; overflow-wrap: anywhere; }
+.status {
+  flex: none;
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  font: var(--f-micro);
+  border: 1px solid var(--line);
+  color: var(--t3);
+  background: var(--surface);
+}
+.st_read { color: var(--t1); border-color: var(--line-strong); }
+.st_done { color: var(--ok-ink); border-color: color-mix(in srgb, var(--ok) 40%, transparent); background: var(--ok-soft); }
+.legend { margin: 0; }
+
+/* 대화(2026-11-19 사용자 「후속으로 계속 대화를」) — 와츠인은 왼쪽 옅은 주황, 나는 오른쪽 옅은 회색. 단색 면 · 가운데 점 없음 */
+.thread { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 0; padding: 0; list-style: none; }
+.msg { display: flex; flex-direction: column; gap: 4px; max-width: 86%; padding: 12px 16px; border-radius: var(--r-md); }
+.msgAdmin { align-self: flex-start; background: var(--brand-soft); border-top-left-radius: 6px; }
+.msgMe { align-self: flex-end; background: var(--sunken); border-top-right-radius: 6px; }
+.msgHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.msgWho { display: inline-flex; align-items: center; gap: 6px; font: var(--f-strong); }
+.msgAdmin .msgWho { color: var(--brand-ink); }
+.msgMe .msgWho { color: var(--t1); }
+.msgBody { margin: 0; color: var(--t1); white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.freshTag {
+  flex: none;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  font: var(--f-micro);
+  color: var(--on-brand);
+  background: var(--brand);
+}
+
+.rowFoot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 4px; }
+.followOpen { flex: none; display: inline-flex; align-items: center; gap: 6px; }
+.follow { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+.followInput { min-height: 96px; }
+.followFoot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.followBtns { display: flex; gap: 8px; }
+
+@media (max-width: 759px) {
+  .msg { max-width: 92%; }
+  .rowFoot { flex-direction: column; align-items: stretch; }
+  .followOpen { justify-content: center; }
+}

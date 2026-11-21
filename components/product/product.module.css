@@ -1,0 +1,424 @@
+/* 제품 화면 블록(2026-11-14 개편) — 원재료 · 영양성분 · 주의 성분 · 자세한 평가 · 신고.
+   부모는 전부 flex(격자 대신 flex-wrap + 칸 폭). 숫자는 큰 숫자 줄, 칸 사이는 가는 선.
+   바뀌는 값 · 켜고 끄는 줄은 자리를 미리 잡는다(레이아웃 규칙 ②). */
+
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-weight: 700; letter-spacing: -0.03em; }
+
+/* ── 공통 블록(카드) ─────────────────────────────────── */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: var(--s-card);
+}
+.blockHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px var(--s-stack);
+}
+.blockHead > h2 { font: var(--f-title); letter-spacing: -0.025em; }
+
+.caveat {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: var(--sunken);
+  color: var(--t2);
+}
+.caveat svg { margin-top: 1px; color: var(--t3); }
+
+/* ── 세 축(예전 카드 칸) ──────────────────────────────── */
+.axes { display: flex; flex-wrap: wrap; gap: var(--s-stack); }
+.axes > * { flex: 1 1 280px; min-width: 0; }
+.axis { display: flex; flex-direction: column; gap: var(--s-stack); padding: var(--s-card); }
+.axisHead { display: flex; align-items: center; gap: 10px; }
+.axisIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 12px;
+  background: var(--sunken);
+  color: var(--t2);
+}
+.axisValue { margin-top: var(--s-hair); }
+.axisSource { margin-top: auto; padding-top: var(--s-tight); border-top: 1px solid var(--line); }
+
+/* 밥 공기 구간 바 */
+.range { display: flex; flex-direction: column; gap: var(--s-hair); }
+.rangeTrack { position: relative; display: flex; height: 12px; border-radius: var(--r-pill); background: var(--sunken); overflow: hidden; }
+.rangeCarb, .rangeSugar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: var(--r-pill); }
+.rangeCarb { background: color-mix(in srgb, var(--t1) 28%, transparent); min-width: 4px; }
+.rangeSugar { background: var(--t1); }
+.rangeTick { position: absolute; top: 2px; bottom: 2px; width: 2px; margin-left: -1px; background: var(--surface); }
+.rangeScale { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+
+/* ── 영양성분 — 열량 한 줄(크게) + 나머지 네 칸(2026-11-17 사용자 「숫자 깔끔하게 · 제대로 반응형」).
+   칸 폭은 패널 폭(컨테이너)으로 정한다 — 화면 폭이 아니라 이 패널이 두 단 중 한 칸일 때도 맞게.
+   숫자는 절대 줄바꿈하지 않고, 패널이 좁아지면 글자가 같이 작아진다(cqw). 네 칸 → 좁으면 두 칸씩 두 줄. */
+.nutri {
+  container-type: inline-size;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;              /* 줄 첫 칸의 왼쪽 선 · 첫 줄의 위 선을 감춘다 */
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.nutriCell {
+  flex: 1 1 calc(25% - 1px);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: -1px 0 0 -1px;
+  padding: 18px clamp(12px, 3.5cqw, 20px) 18px;
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+.nutriCell dt { font: var(--f-caption); color: var(--t2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nutriCell dd { display: flex; align-items: baseline; gap: 3px; margin: 0; white-space: nowrap; min-width: 0; }
+.nutriCell dd > :first-child {
+  font: 700 clamp(1.375rem, 6.4cqw, 2.125rem) / 1.05 var(--font-num);
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+.nutriCell dd > :last-child { flex: none; font-size: clamp(0.75rem, 2.6cqw, 0.875rem); }
+
+/* 열량 — 한 줄을 다 쓰고 이름 · 숫자를 양끝에 */
+.nutriHero { flex-basis: 100%; flex-direction: row; align-items: center; justify-content: space-between; padding-block: 16px; }
+.nutriHero dt { font: var(--f-strong); color: var(--t1); }
+.nutriHero dd > :first-child { font-size: clamp(2rem, 9cqw, 2.75rem); }
+
+@container (max-width: 380px) {
+  .nutriCell { flex-basis: calc(50% - 1px); }
+  .nutriCell dd > :first-child { font-size: clamp(1.5rem, 11cqw, 2rem); }
+  .nutriHero { flex-basis: 100%; }   /* 열량은 좁아도 한 줄 전체 */
+  .nutriHero dd > :first-child { font-size: clamp(2rem, 13cqw, 2.5rem); }
+}
+
+.bowlLine {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--brand-soft);
+  color: var(--t1);
+}
+.bowlLine svg { color: var(--brand-ink); flex: none; }
+@media (max-width: 559px) {
+  .bowlLine { min-height: calc(2 * 1.6em + 28px); align-items: center; }   /* 두 줄 자리는 지킨다(슬라이더로 글이 늘어도 밀리지 않게) · 한 줄이면 가운데 */
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  border-radius: var(--r-tile);
+  background: var(--sunken);
+}
+.sliderHead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.sliderHead > :last-child { min-width: 72px; text-align: right; }
+
+.range2 {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  margin: 0;
+  cursor: pointer;
+}
+.range2::-webkit-slider-runnable-track { height: 6px; border-radius: var(--r-pill); background: linear-gradient(to right, var(--brand) var(--p), var(--line-strong) var(--p)); }
+.range2::-moz-range-track { height: 6px; border-radius: var(--r-pill); background: linear-gradient(to right, var(--brand) var(--p), var(--line-strong) var(--p)); }
+.range2::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -9px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--brand);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  transition: transform var(--t-fast) var(--ease);
+}
+.range2:hover::-webkit-slider-thumb { transform: scale(1.12); }
+.range2::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--surface); border: 2px solid var(--brand); }
+
+.reset {
+  height: 30px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font: var(--f-micro);
+  color: var(--t2);
+  transition: color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.reset:hover { color: var(--t1); box-shadow: inset 0 0 0 1px var(--line-strong); }
+
+.dv { display: flex; flex-direction: column; gap: 10px; transition: opacity var(--t-med) var(--ease); }
+.dvRow { display: flex; align-items: center; gap: 14px; }
+.dvBar { flex: 0 0 72px; display: flex; height: 6px; border-radius: var(--r-pill); background: var(--sunken); overflow: hidden; }
+.dvBar > span { display: block; height: 100%; min-width: 2px; background: var(--t2); border-radius: var(--r-pill); }
+
+/* ── 주의 성분 ─────────────────────────────────────── */
+.concerns { display: flex; flex-direction: column; }
+.concerns > li { display: flex; flex-direction: column; }
+.concerns > li + li { border-top: 1px solid var(--line); }
+.concern { display: flex; align-items: flex-start; gap: var(--s-stack); padding: 20px 0; }
+.concerns > li:first-child .concern { padding-top: 0; }
+.concerns > li:last-child .concern { padding-bottom: 0; }
+.concern > .concernIcon { flex-shrink: 0; margin-top: 2px; color: var(--t3); }
+.concernText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.concernTitle { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.facts3 { display: flex; flex-wrap: wrap; column-gap: var(--s-stack); row-gap: 6px; margin: 6px 0 0; }
+.facts3 dt { flex: 0 0 4.8em; padding-top: 2px; }
+.facts3 dd { flex: 1 1 calc(100% - 4.8em - var(--s-stack)); margin: 0; min-width: 0; }
+.more {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  align-self: flex-start;
+  min-height: 34px;
+  margin: 2px 0 -6px -12px;   /* 눌리는 면을 넉넉히 · 글자 줄은 그대로 */
+  padding: 0 10px 0 12px;
+  border-radius: var(--r-pill);
+  transition: color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.more:hover { color: var(--brand-ink); background: var(--brand-soft); }
+
+/* 세 축 패널 안 — 항목마다 떨어진 카드(넓은 칸 두 줄) */
+.concernCards { flex-direction: row; flex-wrap: wrap; gap: 12px; }
+.concernCards > li { flex: 1 1 340px; min-width: 0; padding: 16px 18px; border-radius: var(--r-tile); background: var(--sunken); }
+.concernCards > li + li { border-top: 0; }
+.concernCards > li .concern { padding: 0; }
+/* 카드 안 설명 — 첫 문장(무슨 일이 생기나)은 진하게, 뒤 문장(권고 · 덧붙임)은 한 톤 연하게 */
+.concernCards dd :global(.rich-p) + :global(.rich-p) { color: var(--t2); }
+.concernCards .facts3 { row-gap: 6px; margin-top: 4px; }
+/* 카드 안 글은 한 단 작게 — 이름표(섭취 시 · 주의 대상)보다 본문이 커 보이지 않게(2026-11-17) */
+.concernCards dd { font: var(--f-caption); font-size: 0.875rem; line-height: 1.55; }
+.concernCards .concern { flex-direction: row; gap: 10px; }
+.concernCards .concernIcon { width: 18px; height: 18px; margin-top: 3px; }
+/* 좁은 화면 — 이름(섭취 시 · 주의 대상)을 위로 올려 설명이 카드 폭을 다 쓴다 */
+@media (max-width: 639px) {
+  .concernCards > li { padding: 20px; }
+  .concernCards .facts3 { row-gap: 4px; }
+  .concernCards .facts3 dt { flex-basis: 100%; padding-top: 6px; }
+  .concernCards .facts3 dd { flex-basis: 100%; }
+}
+.tag { padding: 3px 9px; border-radius: var(--r-pill); background: var(--sunken); color: var(--t2); }
+
+/* 판정 이름표 — 점 없는 틴트 알약 */
+.vtag {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--t2);
+  white-space: nowrap;
+}
+
+/* ── 원재료 칩 — flex-wrap 세 칸(모바일 두 칸) ─────────── */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+.chips > li { display: flex; flex: 0 1 calc((100% - 16px) / 3); min-width: 0; }
+.chipsOne > li { flex-basis: 100%; }
+@media (max-width: 759px) { .chips > li { flex-basis: calc((100% - 8px) / 2); } }
+.chipsScroll {
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  overscroll-behavior-y: contain;   /* 가로 끝 제스처(뒤로가기)는 막지 않는다 */
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(#000 calc(100% - 32px), transparent);
+  padding-bottom: 32px;
+}
+.chip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  min-height: 60px;
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  background: var(--sunken);
+  transition: border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.chip > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip:hover { border-color: var(--line-strong); background: var(--surface); transform: translateY(-1px); }
+.chipUnknown { border-style: dashed; border-color: var(--line-strong); background: transparent; }
+.chipAvoid { background: var(--hit-soft) !important; border-color: var(--hit-line) !important; }
+.chipAvoid > span:nth-of-type(2) { color: var(--hit) !important; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+.legend > li { display: flex; }
+
+/* 원재료 찾기 — 카드 안 검색칸 + 빠른 단추 */
+.chipFind { display: flex; flex-direction: column; gap: 10px; }
+.chipSearch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 8px 0 18px;
+  border-radius: var(--r-pill);
+  background: var(--sunken);
+  color: var(--t3);
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.chipSearch:hover { box-shadow: inset 0 0 0 1px var(--line-strong); }
+.chipSearch:focus-within { background: var(--surface); box-shadow: inset 0 0 0 1.5px var(--brand), 0 0 0 4px var(--brand-soft); }
+.chipSearch input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; color: var(--t1); font: var(--f-body); }
+.chipSearch input::placeholder { color: var(--t3); }
+.chipSearch button { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: var(--t3); transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease); }
+.chipSearch button:hover { background: var(--hover); color: var(--t1); }
+.chipQuick { display: flex; flex-wrap: wrap; gap: 6px; }
+.chipQuickBtn {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  color: var(--t2);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.chipQuickBtn:hover { color: var(--brand-ink); box-shadow: inset 0 0 0 1px var(--brand-line); background: var(--brand-soft); }
+.chipQuickOn, .chipQuickOn:hover { background: var(--t1); color: var(--bg); box-shadow: none; }
+
+/* 원재료 빠른 전환 — 같은 폭 칸 한 줄(전체 · 감미료 · 색소 · 첨가물 · 유지 + 몇 종) */
+.seg { display: flex; gap: 2px; padding: 3px; border-radius: 14px; background: var(--sunken); }
+.segBtn {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 36px;
+  padding: 0 6px;
+  border-radius: 11px;
+  color: var(--t2);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.segBtn:hover:not(:disabled) { color: var(--t1); background: color-mix(in srgb, var(--surface) 55%, transparent); }
+.segBtn:disabled { opacity: 0.4; cursor: default; }
+.segOn, .segOn:hover:not(:disabled) { background: var(--surface); color: var(--t1); box-shadow: var(--shadow-sm), 0 0 0 1px var(--line); }
+.segLabel { font: var(--f-caption); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.segN { flex: none; font: var(--f-micro); font-family: var(--font-num); color: var(--t3); }
+.segOn .segN { color: var(--brand-ink); }
+@media (max-width: 420px) { .segBtn { flex-direction: column; gap: 0; height: 44px; } }
+
+/* 가공육 안내 — 중립 면 */
+.meat { display: flex; flex-direction: column; gap: 8px; padding: var(--s-card); border-radius: var(--r-card); background: var(--sunken); }
+
+/* 대안(옛 이름) */
+.altWrap, .alts { display: flex; flex-direction: column; gap: var(--s-stack); }
+.alt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-stack);
+  padding: var(--s-inner);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.alt:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+.altTop { display: flex; align-items: center; gap: var(--s-stack); }
+.altText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.clamp2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.improves { display: flex; flex-wrap: wrap; gap: var(--s-hair); }
+.up { display: flex; align-items: center; gap: 2px; height: 24px; padding: 0 8px 0 4px; border-radius: var(--r-pill); background: var(--brand-soft); color: var(--brand-ink); }
+.tradeoff { display: flex; align-items: flex-start; gap: var(--s-hair); padding-top: var(--s-tight); border-top: 1px solid var(--line); color: var(--t2); }
+.tradeoff svg { color: var(--t3); }
+
+@media (max-width: 759px) {
+  .axis, .block, .meat { padding: 20px; }
+}
+
+/* 당질 — 밥그릇 · 구성 막대 · 각설탕(무채색) */
+.bowls { display: flex; align-items: center; gap: 6px; margin-top: var(--s-tight); }
+.bowlsNote { margin-left: auto; }
+.bowlRim { fill: var(--sunken); stroke: var(--t3); stroke-width: 1.3; }
+.bowlIn { fill: var(--surface); }
+.bowlRice { fill: var(--t2); }
+.mix { display: flex; flex-direction: column; gap: 6px; }
+.mixTrack { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--t3) 35%, var(--sunken)); overflow: hidden; display: flex; }
+.mixSugar { display: block; height: 100%; background: var(--t2); }
+.mixLegend { display: flex; justify-content: space-between; gap: 8px; }
+/* 순탄수화물 계산 줄(2026-11-18) — 탄수화물 − 식이섬유 = 당질 − 흡수되지 않는 당알코올 = 순탄수화물. 이름 | 값 두 칸 줄 */
+.calc { margin: 0; padding: 10px 14px; border-radius: var(--r-md, 10px); background: var(--sunken); display: flex; flex-direction: column; gap: 4px; max-width: 420px; }
+.calc > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.calc dt { display: flex; align-items: baseline; color: var(--t2); }
+.calc dd { margin: 0; color: var(--t2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.calcOp { display: inline-block; width: 16px; color: var(--t3); }
+.calcStrong { padding-top: 4px; border-top: 1px solid var(--line, color-mix(in srgb, var(--t3) 30%, transparent)); }
+.calcStrong dt, .calcStrong dd { color: var(--t1); font-weight: 600; }
+.cubes { display: flex; align-items: center; gap: var(--s-tight); flex-wrap: wrap; margin: 0; }
+.cubeRow { display: flex; gap: 3px; }
+.cube, .cubeOn { width: 10px; height: 10px; border-radius: 2px; border: 1.2px solid var(--t2); }
+.cubeOn { background: var(--t2); }
+.why summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  margin-left: -12px;
+  padding: 0 12px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  list-style: none;
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.why summary:hover { background: var(--hover); color: var(--t1); }
+.why summary::-webkit-details-marker { display: none; }
+.why summary::after { content: ' ⌄'; }
+.why[open] summary::after { content: ' ⌃'; }
+.why p { margin-top: var(--s-hair); }
+
+/* 「자세히」 펼친 안 — 세 축 패널(AxisCards)이 쓴다. 타일 · 패널은 axisTabs.module.css */
+.whyBody { display: flex; flex-direction: column; gap: var(--s-tight); padding-top: var(--s-tight); }
+.bowls { margin-top: 0; }
+
+/* 오류 신고 — 상세 맨 아래 글자 단추 · 창 안의 고르기 칩 */
+.report {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--r-pill);
+  /* 어두운 빨강 — 눈이 아프지 않게 빨강을 글자색 쪽으로 눌렀다 · 글자에 밑줄(누를 수 있다는 표시 · 2026-11-17 사용자) */
+  color: color-mix(in srgb, var(--hit) 72%, var(--t1));
+  transition: color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.reportText { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, currentColor 55%, transparent); transition: text-decoration-color var(--t-fast) var(--ease); }
+.report:hover { color: var(--hit); background: var(--hit-soft); }
+.report:hover .reportText { text-decoration-color: currentColor; }
+.reportKinds { display: flex; flex-wrap: wrap; gap: 6px; }
+.reportKind {
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--t2);
+  transition: box-shadow var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.reportKind:hover { color: var(--t1); box-shadow: inset 0 0 0 1px var(--line-strong); }
+.reportKindOn, .reportKindOn:hover { box-shadow: inset 0 0 0 1.5px var(--brand); background: var(--brand-soft); color: var(--t1); }
+

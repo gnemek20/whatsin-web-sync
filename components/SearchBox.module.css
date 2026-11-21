@@ -1,0 +1,247 @@
+/* 검색창(2026-11-16 다시) — 알약 한 줄 flex. 크기 셋(lg 첫 화면 · md · sm 머리).
+   진행 표시 · 지우기 칸은 늘 자리를 둔다(입력칸 폭 고정). 펼친 판(최근 · 추천 · 미리보기)은 아래로 떠서 본문을 밀지 않는다.
+   모바일 아래 고정 검색창(dock)은 누르면 전체 화면 시트(.sheet)가 된다. */
+.root { position: relative; display: flex; flex-direction: column; width: 100%; min-width: 0; }
+.engaged { z-index: 51; }
+.barRow { display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0; }
+.form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-sm);
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.form:hover { box-shadow: inset 0 0 0 1px var(--line-strong), var(--shadow-sm); }
+.form:focus-within { box-shadow: inset 0 0 0 1.5px var(--brand), 0 0 0 4px color-mix(in srgb, var(--brand) 14%, transparent); }
+
+.icon { color: var(--t3); flex: none; }
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--t1);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.input::placeholder { color: var(--t3); }
+.input::-webkit-search-cancel-button { display: none; }
+
+.spin {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--brand);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.clear {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--t3);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.clear:hover { background: var(--hover); color: var(--t1); }
+
+.submit {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  color: var(--on-brand);
+  font: var(--f-strong);
+  aspect-ratio: 1;
+  padding: 0 !important;
+  transition: background-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.submit:hover { background: var(--brand-ink); }
+.submit:active { transform: scale(0.97); }
+.submit[aria-busy='true'] { opacity: 0.8; }
+.submit[aria-busy='true'] svg { animation: submitPulse 0.9s var(--ease) infinite alternate; }
+@keyframes submitPulse { to { transform: scale(0.82); } }
+
+/* 크기 */
+.sm { height: 44px; padding: 0 4px 0 16px; }
+.sm .icon { width: 18px; height: 18px; }
+.sm .input { font: var(--f-caption); font-size: 0.9375rem; }
+.sm .submit { height: 36px; }
+
+.md { height: 56px; padding: 0 6px 0 20px; }
+.md .input { font: var(--f-strong); font-weight: 500; }
+.md .submit { height: 44px; }
+
+.lg { height: 68px; padding: 0 8px 0 24px; gap: 8px; box-shadow: inset 0 0 0 1px var(--line), var(--shadow); }
+.lg .icon { width: 22px; height: 22px; }
+.lg .input { font: var(--f-headline); font-weight: 500; }
+.lg .submit { height: 52px; }
+@media (max-width: 759px) {
+  .lg { height: 60px; padding: 0 6px 0 18px; }
+  .lg .input { font: var(--f-strong); font-weight: 500; }
+  .lg .submit { height: 46px; }
+}
+
+/* 펼친 판 — 아래로 떠서 연다 */
+.panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  max-height: min(520px, 70vh);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  text-align: left;
+  background: var(--raised);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--line-strong);
+  animation: drop var(--t-fast) var(--ease);
+}
+@keyframes drop { from { opacity: 0; transform: translateY(-4px); } }
+.panel > li { display: flex; flex-direction: column; }
+
+/* 최근 검색 · 추천 검색어 — 한 줄씩(알약 나열이 아니라 목록) */
+.group { display: flex; flex-direction: column; }
+.group + .group { margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--line); }
+.groupHead { padding: 8px 12px 6px; font: var(--f-micro); color: var(--t3); }
+.rows { display: flex; flex-direction: column; }
+.rowLi { display: flex; align-items: center; border-radius: var(--r-md); transition: background-color var(--t-fast) var(--ease); }
+.rowLi:hover { background: var(--hover); }
+.row {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 0 12px;
+  text-align: left;
+  color: var(--t1);
+}
+.rowIcon { flex: none; color: var(--t3); }
+.rowQ { flex: 1; min-width: 0; font: var(--f-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rowHint { flex: none; font: var(--f-caption); color: var(--t3); }
+.rowX {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--t3);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.rowX:hover { background: var(--surface); color: var(--t1); }
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--r-md);
+  transition: background-color var(--t-fast) var(--ease);
+}
+.opt:hover, .optOn { background: var(--hover); }
+.optText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.optName { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.optAll {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 12px 12px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 var(--r-md) var(--r-md);
+  color: var(--brand-ink);
+  font-weight: 600;
+  transition: background-color var(--t-fast) var(--ease);
+}
+.optAll:hover { background: var(--brand-soft); }
+
+/* 모바일 아래 고정 검색창(dock) — 어느 화면이든 같은 크기(2026-11-17 사용자 「기록 쪽 작은 input 기준으로 전부 같게」).
+   size 와 무관하게 md 한 벌 — 첫 화면(PC 는 lg 그대로) · 검색 결과 · 기록 · 제품 상세가 같은 상자다. */
+@media (max-width: 759px) {
+  /* 떠 있는 그림자는 입력칸 자체에(감싼 자리가 아니라) — 옆에 「취소」가 붙어도 상자 밖에 선다 */
+  .dockMode .form { height: 56px; padding: 0 6px 0 20px; gap: 4px; box-shadow: inset 0 0 0 1px var(--line), var(--shadow-lift); }
+  .dockMode .form:focus-within { box-shadow: inset 0 0 0 1.5px var(--brand), var(--shadow-lift); }
+  .dockMode:not(.sheet) .cancel { padding: 0 6px 0 10px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .dockMode .icon { width: 20px; height: 20px; }
+  .dockMode .input { font: var(--f-strong); font-weight: 500; }
+  .dockMode .submit { height: 44px; }
+}
+
+/* 모바일 시트 — 아래 고정 검색창을 누르면 화면 전체. 검색창 · 취소는 아래 그대로(엄지 자리 · 2026-11-17 사용자 「모바일은 input 이 아래」),
+   위를 판이 채우고 목록은 입력칸 쪽(아래)으로 붙는다. 높이는 키보드를 뺀 보이는 높이(--sheet-h · SearchBox). */
+.cancel {
+  flex: none;
+  height: 44px;
+  padding: 0 4px 0 6px;
+  font: var(--f-strong);
+  color: var(--t2);
+}
+.cancel:hover { color: var(--t1); }
+@media (max-width: 759px) {
+  .sheet {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--sheet-h, 100dvh);
+    z-index: 95;
+    gap: 8px;
+    padding: calc(8px + env(safe-area-inset-top)) var(--gutter) calc(10px + env(safe-area-inset-bottom));
+    background: var(--bg);
+    animation: sheetIn 220ms var(--ease);
+  }
+  .sheet .form { box-shadow: inset 0 0 0 1.5px var(--brand); }
+  .sheet .barRow { order: 2; flex: none; margin-top: auto; }   /* 펼친 판이 없어도 아래에 */
+  .sheet .panel {
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    position: static;
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 12px calc(var(--gutter) - 12px) 4px;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    animation: none;
+    scrollbar-gutter: auto;
+  }
+  .sheet .panel > :first-child { margin-top: auto; }   /* 짧으면 입력칸 쪽(아래)에 붙고, 길면 위로 굴린다 */
+  .sheet .groupHead { padding-top: 12px; }
+  .sheet .group + .group { margin-inline: 12px; }   /* 나눔선도 여백 선 안에서 */
+  .sheet .group + .group .groupHead { padding-inline: 0; }
+  .sheet .group + .group .row { padding-inline: 0; }
+  .sheet .submit { display: none; }   /* 시트에서는 키보드의 검색 키로 보낸다 — 입력칸을 넓게(자리표시 글이 잘리지 않게) */
+  .sheet .form { padding-right: 8px; }
+}
+@keyframes sheetIn { from { opacity: 0; transform: translateY(-16px); } }

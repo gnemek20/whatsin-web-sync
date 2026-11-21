@@ -1,0 +1,19 @@
+/* 제품 사진 올리기 — 창은 FeedbackPrompt 모양. 고르는 칸은 고정 높이(사진을 골라도 창 크기가 그대로) */
+.openBtn { gap: 6px; }
+.drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  border-radius: 18px;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+.drop:hover { box-shadow: inset 0 0 0 1.5px var(--brand); background: var(--brand-soft); }
+.dropHas { background: #fff; }
+.dropEmpty { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 0 16px; }
+.dropIcon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 15px; background: var(--surface); color: var(--brand-ink); box-shadow: var(--shadow-sm); }
+.preview { width: 100%; height: 100%; object-fit: contain; }

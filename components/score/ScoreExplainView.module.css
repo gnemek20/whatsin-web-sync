@@ -1,0 +1,542 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: wiUp 0.4s ease both;
+}
+
+/* ── 요약 배너 ── */
+.hero {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+}
+.heroTop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.heroDot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  flex: none;
+}
+.heroInfo {
+  flex: 1;
+  min-width: 0;
+}
+.heroName {
+  font: 800 20px var(--font-body);
+  color: var(--t1);
+  line-height: 1.25;
+}
+.heroMeta {
+  font: 500 13px var(--font-body);
+  color: var(--t2);
+  margin-top: 4px;
+}
+.heroScoreBox {
+  text-align: right;
+  flex: none;
+}
+.heroGrade {
+  font: 800 34px var(--font-display);
+  line-height: 1;
+}
+.heroScore {
+  font: 500 13px var(--font-body);
+  color: var(--t3);
+  margin-top: 2px;
+}
+.heroScore b {
+  font-weight: 800;
+  color: var(--t1);
+  font-size: 15px;
+}
+.gauge {
+  height: 9px;
+  border-radius: 5px;
+  background: var(--sunken);
+  overflow: hidden;
+  margin: 16px 0;
+}
+.gaugeFill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+.heroEq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--sunken);
+  border-radius: 12px;
+  font: 600 13px var(--font-body);
+  color: var(--t2);
+}
+.eqTerm b {
+  color: var(--t1);
+  font-weight: 800;
+}
+.eqOp {
+  color: var(--t3);
+  font-weight: 700;
+}
+.eqFinal {
+  font-weight: 700;
+}
+.eqFinal b {
+  font-weight: 800;
+}
+
+/* ── 단계 카드 ── */
+.step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+}
+.stepHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.stepNo {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+  font: 800 14px var(--font-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stepTitle {
+  margin: 0;
+  font: 800 17px var(--font-body);
+  color: var(--t1);
+}
+.stepDesc {
+  margin: 4px 0 0;
+  font: 500 13px var(--font-body);
+  color: var(--t2);
+  line-height: 1.5;
+}
+.stepBody {
+  display: block;
+}
+
+/* ── ① 감점/가점 2열 ── */
+.npGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.npHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font: 700 13px var(--font-body);
+  color: var(--t2);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.npSum {
+  font: 800 14px var(--font-body);
+}
+
+.part {
+  margin-bottom: 12px;
+}
+.partDim {
+  opacity: 0.5;
+}
+.partTop {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 5px;
+}
+.partLabel {
+  font: 700 13px var(--font-body);
+  color: var(--t1);
+}
+.partMeasured {
+  font: 500 12px var(--font-body);
+  color: var(--t3);
+  flex: 1;
+}
+.partPoints {
+  font: 800 13px var(--font-body);
+}
+.partTrack {
+  height: 7px;
+  border-radius: 4px;
+  background: var(--sunken);
+  overflow: hidden;
+}
+.partFill {
+  height: 100%;
+  border-radius: 4px;
+  min-width: 2px;
+  transition: width 0.5s ease;
+}
+.partNote {
+  font: 500 11px var(--font-body);
+  color: var(--t3);
+  margin-top: 4px;
+}
+
+.ruleNote {
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: var(--brand-soft);
+  border-radius: 10px;
+  font: 600 12px var(--font-body);
+  color: var(--brand-ink);
+  line-height: 1.5;
+}
+
+/* 수식 박스 */
+.formula {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: var(--sunken);
+  border-radius: 12px;
+}
+.formulaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font: 600 13px var(--font-body);
+  color: var(--t2);
+  padding: 5px 0;
+}
+.formulaVal {
+  font: 600 13px var(--font-body);
+  color: var(--t1);
+  text-align: right;
+}
+.formulaResult {
+  border-top: 1px solid var(--line);
+  margin-top: 5px;
+  padding-top: 10px;
+}
+.formulaResult .formulaVal b {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* S(낮을수록 좋음)를 0~100(높을수록 좋음)으로 뒤집는 눈금 설명 */
+.scaleIntro {
+  margin: 10px 0 2px;
+  font: 600 12px var(--font-body);
+  color: var(--t2);
+  line-height: 1.5;
+}
+.scaleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 6px 0;
+}
+.scaleLabel {
+  font: 600 13px var(--font-body);
+  color: var(--t2);
+}
+.scaleWhy {
+  display: block;
+  margin-top: 2px;
+  font: 500 11px var(--font-body);
+  font-style: normal;
+  color: var(--t3);
+  line-height: 1.5;
+}
+.scaleVal {
+  flex: none;
+  font: 700 13px var(--font-body);
+  color: var(--t1);
+  text-align: right;
+  white-space: nowrap;
+}
+.scaleDim {
+  color: var(--t3);
+  font-weight: 600;
+}
+.formulaCompact {
+  margin-top: 8px;
+  font: 500 11px var(--font-body);
+  color: var(--t3);
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ── 항목 사이 구분선 ──────────────────────────────────────────
+   어느 항목이 어느 점수인지 눈으로 끊어 읽게, 항목 '사이'에만 얇고 연한 선을 둔다.
+   인접 형제(+) 선택자라 첫 항목 위·마지막 항목 아래에는 선이 생기지 않는다. */
+.part + .part {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+.concernRow + .concernRow {
+  border-top: 1px solid var(--line);
+  padding-top: 11px;
+}
+/* 카테고리 헤더(주의 성분 · 첨가물 …) — 앞 블록과 선으로 끊어
+   어느 점수가 어느 카테고리 것인지 위아래를 분명히 구분한다. */
+.stepBody > .subHead:not(:first-child) {
+  border-top: 1px solid var(--line);
+  margin-top: 16px;
+  padding-top: 14px;
+}
+/* 수식 박스: 눈금·계산 행 사이. 결과 행(.formulaResult)은 자체 강조선을 유지한다. */
+.formulaRow + .scaleIntro {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.scaleRow + .scaleRow,
+.scaleRow + .formulaRow:not(.formulaResult),
+.formulaRow + .formulaRow:not(.formulaResult) {
+  border-top: 1px solid var(--line);
+}
+
+/* ── ② 성분 감점 ── */
+.subHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font: 700 14px var(--font-body);
+  color: var(--t1);
+  margin-bottom: 10px;
+}
+.subSum {
+  font: 800 14px var(--font-body);
+  color: var(--band-3-t);
+}
+.concernRow {
+  margin-bottom: 11px;
+}
+.concernTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+.concernLabel {
+  font: 700 13px var(--font-body);
+  color: var(--t1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.highTag {
+  font: 800 10px var(--font-body);
+  color: var(--band-4-t);
+  background: #fbe9e6;
+  border-radius: 5px;
+  padding: 2px 6px;
+}
+.concernWeight {
+  font: 800 13px var(--font-body);
+  color: var(--band-3-t);
+}
+.emptyLine {
+  font: 500 13px var(--font-body);
+  color: var(--t3);
+  padding: 4px 0;
+}
+.additiveLine {
+  font: 600 13px var(--font-body);
+  color: var(--t1);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.chip {
+  background: var(--sunken);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font: 600 12px var(--font-body);
+  color: var(--t2);
+}
+.penTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font: 700 14px var(--font-body);
+  color: var(--t1);
+}
+.penTotalVal {
+  font: 600 14px var(--font-body);
+  color: var(--t2);
+}
+.penTotalVal b {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--band-3-t);
+}
+
+/* ── ③ 상한 ── */
+.capRow {
+  padding: 12px 14px;
+  background: var(--sunken);
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.capTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.capLabel {
+  font: 700 14px var(--font-body);
+  color: var(--t1);
+}
+.capVal {
+  font: 800 14px var(--font-body);
+  color: var(--brand-ink);
+}
+.capNote {
+  font: 500 12px var(--font-body);
+  color: var(--t2);
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* ── ④ 최종 ── */
+.finalRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.finalCalc {
+  font: 600 14px var(--font-body);
+  color: var(--t2);
+}
+.finalArrow {
+  color: var(--t3);
+  font-weight: 700;
+}
+.finalScore {
+  font: 600 15px var(--font-body);
+}
+.finalScore b {
+  font: 800 26px var(--font-display);
+}
+.finalGrade {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: #fff;
+  font: 800 18px var(--font-display);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gradeLabelLine {
+  font: 800 16px var(--font-body);
+  margin-top: 10px;
+}
+.gradeNote {
+  font: 500 12px var(--font-body);
+  color: var(--t3);
+  margin-top: 4px;
+}
+
+/* ── 혈당부하(별도) ── */
+.bsCard {
+  background: var(--bg);
+  border: 1px dashed var(--line);
+  border-radius: 18px;
+  padding: 18px 20px;
+}
+.bsHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.bsTitle {
+  font: 800 15px var(--font-body);
+  color: var(--t1);
+}
+.bsBadge {
+  font: 800 13px var(--font-body);
+}
+.bsNote {
+  font: 500 12px var(--font-body);
+  color: var(--t2);
+  margin-top: 6px;
+}
+.bsNote b {
+  color: var(--t1);
+  font-weight: 700;
+}
+.bsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 22px;
+  margin-top: 14px;
+}
+.bsGrid > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font: 500 13px var(--font-body);
+  color: var(--t2);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.bsGrid b {
+  font-weight: 800;
+  color: var(--t1);
+}
+
+/* 점수 미산출 */
+.notScored {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px 22px;
+  text-align: center;
+}
+.nsTitle {
+  font: 800 18px var(--font-body);
+  color: var(--t1);
+}
+.nsDesc {
+  font: 500 14px var(--font-body);
+  color: var(--t2);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* 반응형 — 모바일 세로 스택 */
+@media (max-width: 640px) {
+  .npGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .bsGrid {
+    grid-template-columns: 1fr;
+  }
+  .heroName {
+    font-size: 18px;
+  }
+}

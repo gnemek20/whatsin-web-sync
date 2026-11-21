@@ -1,0 +1,207 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 40px 20px 80px;
+}
+.inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* 헤더 */
+.head {
+  margin-bottom: 26px;
+}
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+.logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+.wordmark {
+  font: 800 18px var(--font-display);
+  color: var(--t1);
+}
+.tag {
+  font: 700 11px var(--font-body);
+  color: var(--brand-ink);
+  background: var(--brand-soft);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.title {
+  margin: 0;
+  font: 800 30px var(--font-display);
+  color: var(--t1);
+  letter-spacing: -0.01em;
+}
+.sub {
+  margin: 10px 0 0;
+  font: 500 14px var(--font-body);
+  color: var(--t2);
+  line-height: 1.6;
+}
+
+/* 검색 */
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  height: 54px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 0 18px;
+}
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: 500 15px var(--font-body);
+  color: var(--t1);
+}
+.input::placeholder {
+  color: var(--t3);
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 8px;
+}
+.hint {
+  font: 500 13px var(--font-body);
+  color: var(--t3);
+  padding: 10px 8px;
+}
+.result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 12px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+.result:hover {
+  background: var(--sunken);
+}
+.resultInfo {
+  flex: 1;
+  min-width: 0;
+}
+.resultName {
+  font: 700 14px var(--font-body);
+  color: var(--t1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.resultBrand {
+  font: 500 12px var(--font-body);
+  color: var(--t2);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.resultGrade {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 800 15px var(--font-body);
+  flex: none;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+.preparing {
+  font: 700 11px var(--font-body);
+  color: var(--t3);
+  background: var(--sunken);
+  border-radius: 6px;
+  padding: 4px 8px;
+  flex: none;
+}
+
+/* 결과 영역 */
+.output {
+  margin-top: 22px;
+}
+.placeholder {
+  text-align: center;
+  padding: 48px 20px;
+  font: 500 14px var(--font-body);
+  color: var(--t3);
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+}
+.center {
+  text-align: center;
+  padding: 40px;
+  font: 600 14px var(--font-body);
+  color: var(--t2);
+}
+.errorBox {
+  padding: 18px 20px;
+  background: #fbe9e6;
+  border: 1px solid #f2cfc8;
+  border-radius: 14px;
+  font: 600 13px var(--font-body);
+  color: var(--band-4-t);
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 25px;
+  }
+}
+
+/* 바로 보기 — 대표 제품을 검색 없이 한 번에 연다 */
+.quickRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 0 4px;
+}
+.quickLabel {
+  font: 600 12px var(--font-body);
+  color: var(--t3);
+}
+.quickBtn {
+  font: 700 13px var(--font-body);
+  color: var(--t1);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.quickBtn:hover:not(:disabled) {
+  background: var(--sunken);
+  border-color: var(--t3);
+}
+.quickBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

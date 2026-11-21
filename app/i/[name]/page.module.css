@@ -1,0 +1,102 @@
+/* 성분 상세(2026-11-14 새 디자인) — 제품 상세(components/p/p.module.css)와 같은 짜임 · 같은 면.
+   맨 위 두 칸(PC 1024~) 성분 카드 | 한눈에 보기 → 본문 섹션(든 제품 · 공인 기관 평가). 전부 flex. 긴 문단만 읽기 폭으로 묶는다. */
+
+.page { display: flex; flex-direction: column; padding-bottom: var(--s-band); }
+.wrap { display: flex; flex-direction: column; gap: var(--s-group); }
+.errorPage { display: flex; flex-direction: column; padding-top: var(--s-section); padding-bottom: var(--s-band); }
+
+/* ── 맨 위 두 칸 ─────────────────────────────────────── */
+.top { display: flex; flex-direction: column; gap: 16px; }
+@media (min-width: 1024px) {
+  .top { flex-direction: row; align-items: stretch; gap: 24px; }
+  .top > .idCard { flex: 0 0 clamp(360px, 40%, 480px); }
+  .top > .facts { flex: 1 1 0; min-width: 0; }
+  .topSolo > .idCard { flex: 1 1 auto; }
+}
+
+/* 성분 카드 */
+.idCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: var(--s-card);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.kind { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.kindIcon {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-tile);
+  background: var(--sunken);
+  color: var(--t3);
+}
+.tags { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.roleTag {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  background: var(--sunken);
+  color: var(--t2);
+  white-space: nowrap;
+}
+.idText { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.name { overflow-wrap: anywhere; }
+.fn { font-weight: 600; }
+.summary { max-width: 640px; font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem); font-weight: 500; color: var(--t1); }
+.aliases { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding-top: 16px; border-top: 1px solid var(--line); }
+.aliases dt { flex: none; }
+.aliases dd { flex: 1 1 200px; min-width: 0; margin: 0; }
+.actions { display: flex; margin-top: auto; padding-top: 4px; }
+@media (max-width: 599px) {
+  .actions > .avoid { flex: 1 1 auto; }
+}
+
+/* 한눈에 보기 — 이름 왼쪽 · 내용 오른쪽 줄(가는 선으로 나눈다) */
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px var(--s-card) 8px;
+  border-radius: var(--r-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.factsKicker { display: flex; align-items: center; gap: 6px; font: var(--f-strong); color: var(--brand-ink); }
+.factList { display: flex; flex-direction: column; }
+.fact { display: flex; flex-direction: column; gap: 8px; padding: 20px 0; }
+.fact + .fact { border-top: 1px solid var(--line); }
+.fact dt { flex: none; }
+.fact dd { margin: 0; min-width: 0; display: flex; flex-direction: column; }
+.factValue { gap: 6px; max-width: 680px; }
+.effects { display: flex; flex-direction: column; gap: 16px; max-width: 680px; }
+.effect { display: flex; flex-direction: column; gap: 4px; }
+@media (min-width: 600px) {
+  .fact { flex-direction: row; align-items: flex-start; gap: 20px; padding: 22px 0; }
+  .fact dt { flex: 0 0 5.5em; padding-top: 2px; }
+  .fact dd { flex: 1 1 0; }
+}
+
+/* ── 본문 섹션 ───────────────────────────────────────── */
+.body { display: flex; flex-direction: column; gap: var(--s-group); }
+
+/* 공인 기관 평가 — 기관 왼쪽 · 평가 오른쪽 */
+.auth { padding: 0 var(--s-card); }
+.authRow { display: flex; flex-direction: column; gap: 6px; padding: 22px 0; }
+.authRow + .authRow { border-top: 1px solid var(--line); }
+.authBody { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.authRow dd { margin: 0; min-width: 0; max-width: 720px; }
+@media (min-width: 600px) {
+  .authRow { flex-direction: row; align-items: flex-start; gap: 20px; }
+  .authBody { flex: 0 0 clamp(160px, 22%, 240px); }
+  .authRow dd { flex: 1 1 0; }
+}

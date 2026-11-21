@@ -1,0 +1,30 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-tight);
+  height: 52px;
+  padding: 0 var(--s-section) 0 var(--s-inner);
+  border-radius: var(--r-button);
+  background: var(--ink);
+  color: var(--on-ink);
+  transition: transform 160ms var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.paper {
+  background: var(--on-ink);
+  color: var(--ink);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.text > :first-child {
+  opacity: 0.72;
+}

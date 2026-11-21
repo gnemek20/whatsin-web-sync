@@ -1,0 +1,37 @@
+/* 제품 상세 뼈대 — app/p/[id]/page.tsx 와 같은 짜임(맨 위 제품 카드 ~31% | 내 기준 판 → 섹션). 반복 애니메이션 없음. */
+.page { display: flex; flex-direction: column; padding-bottom: var(--s-band); }
+.bar { display: flex; align-items: center; justify-content: space-between; min-height: 64px; padding: 12px 0; }
+.wrap { display: flex; flex-direction: column; gap: var(--s-group); }
+
+.top { display: flex; flex-direction: column; gap: 16px; }
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+  border-radius: var(--r-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.media { display: flex; aspect-ratio: 4 / 3; border-radius: calc(var(--r-card) - 6px); }
+.lines { display: flex; flex-direction: column; gap: 10px; padding: 0 4px; }
+.facts { display: flex; flex-direction: column; gap: 14px; padding: 6px 4px 0; }
+.btn { display: flex; height: 46px; border-radius: var(--r-pill); margin-top: auto; }
+.answer { display: flex; min-height: 420px; border-radius: var(--r-card); }
+
+@media (min-width: 1024px) {
+  .top { flex-direction: row; align-items: stretch; gap: 24px; }
+  .top > .card { flex: 0 0 clamp(320px, 31%, 400px); }
+  .top > .answer { flex: 1 1 0; min-width: 0; }
+}
+@media (max-width: 1023px) {
+  .card { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 14px 16px; padding: 16px; }
+  .media { flex: none; width: 88px; height: 88px; aspect-ratio: auto; border-radius: var(--r-tile); }
+  .lines { flex: 1 1 200px; padding: 0; }
+  .facts { display: none; }
+  .btn { flex: 1 1 100%; }
+}
+
+.section { display: flex; flex-direction: column; gap: 20px; }
+.pair { display: flex; flex-wrap: wrap; gap: 24px; }
+.pair > * { flex: 1 1 440px; min-width: 0; min-height: 320px; border-radius: var(--r-card); }
